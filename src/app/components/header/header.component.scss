@@ -1,0 +1,11 @@
+:host ::ng-deep {
+  .p-menubar {
+    background-color: var(--p-primary-50);
+  }
+  .p-menubar-item-label {
+    color: var(--p-primary-700);
+  }
+  .p-menubar-button {
+    color: var(--p-primary-700);
+  }
+}
