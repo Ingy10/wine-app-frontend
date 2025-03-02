@@ -18,9 +18,9 @@ const WinePreset = definePreset(Lara, {
     },
     background: '#000000', // Default background
     foreground: '#ffffff', // Ensuring contrast
-    
+
     text: {
-      primary: '#ffffff',
+      primary: '#400000',
       secondary: '#aaaaaa',
       inverted: '#000000',
     },
@@ -34,14 +34,46 @@ const WinePreset = definePreset(Lara, {
       hoverColor: '#ffffff',
     },
     card: {
-      background: '#3a0114', // Dark maroon cards
-      textColor: '#ffffff',
-      border: '#7a072a',
+      background: '#ffffff',
+      textColor: '#400000',
+      border: '#600000',
+    },
+    menubar: {
+      colorScheme: {
+        light: {
+          // Or dark, or both
+          root: {
+            background: '#ffffff', // White background
+            color: '#800000', // Maroon text
+            borderRadius: '0',
+          },
+          item: {
+            color: '#800000', // Maroon text for items
+            activeBackground: '#f5f5f5', //Lighter grey active background
+            activeColor: '#800000', //Maroon active color
+            focusBackground: '#f5f5f5', //Lighter grey focus background
+            focusColor: '#800000', //Maroon focus color
+            hoverBackground: '#f5f5f5', //Lighter grey hover background
+            hoverColor: '#800000', //Maroon hover color
+          },
+          submenu: {
+            background: '#ffffff', // White submenu background
+            color: '#800000', // Maroon submenu text
+          },
+          mobile: {
+            button: {
+              color: '#800000', //Maroon mobile button color
+              hoverColor: '#800000', //Maroon mobile hover color
+              hoverBackground: '#f5f5f5', //Lighter grey mobile hover background
+            },
+          },
+        },
+      },
     },
   },
   typography: {
-    fontFamily: `'Playfair Display', 'Georgia', serif`
-  }
+    fontFamily: `'Playfair Display', 'Georgia', serif`,
+  },
 });
 
 export default WinePreset;

@@ -2,6 +2,37 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;700&display=swap");
 
 body {
-  font-family: "Playfair Display", "Merriweather", serif;
+  font-family: "open sans", "helvetica neue", "helvetica", serif;
   margin: 0;
+}
+
+.card {
+  padding: 1rem;
+  background-color: var(--p-primary-50);
+  box-shadow: inset 2px 2px 5px var(--p-primary-200);
+  border-radius: 10px;
+}
+
+.font-weight-light {
+  font-weight: 300;
+}
+
+.box-shadow-light {
+  box-shadow: 4px 4px 5px var(--p-primary-200);
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.end-0 {
+  right: 0;
 }
