@@ -14,8 +14,8 @@ export class HeaderComponent {
 
   constructor() {
     this.items = [
-      { label: 'Home', icon: 'pi pi-home', routerLink: ['/'] },
-      { label: 'Admin', icon: 'pi pi-cog', routerLink: ['/admin'] },
+      { label: 'Home', routerLink: ['/'] },
+      { label: 'Admin', routerLink: ['/admin'] },
     ];
   }
 }

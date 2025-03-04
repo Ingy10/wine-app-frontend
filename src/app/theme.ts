@@ -26,18 +26,6 @@ const WinePreset = definePreset(Lara, {
     },
   },
   components: {
-    button: {
-      background: '#5a041f', // Maroon buttons
-      color: '#ffffff',
-      border: '#7a072a',
-      hoverBackground: '#7a072a',
-      hoverColor: '#ffffff',
-    },
-    card: {
-      background: '#ffffff',
-      textColor: '#400000',
-      border: '#600000',
-    },
     menubar: {
       colorScheme: {
         light: {

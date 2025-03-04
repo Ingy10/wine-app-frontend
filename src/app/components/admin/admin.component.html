@@ -1,1 +1,115 @@
-<p>admin works!</p>
+<app-header></app-header>
+
+<form class="card" (submit)="onSubmit()">
+  <h1 class="w-full text-center text-primary-700 font-weight-light text-xxl">
+    Wine List
+  </h1>
+  <p-divider></p-divider>
+  <p-accordion [multiple]="true" class="p-0">
+    @for (wine of wines; track $index) {
+    <p-accordion-panel>
+      <div class="flex flex-column">
+        <p-accordion-header class="flex justify-content-between py-0">
+          <div class="flex">
+            <h3 class="text-primary-700">{{ $index + 1 }}.&nbsp;</h3>
+            <h3 class="text-primary-700">
+              {{ wine.wineName }} ({{ wine.vintage }}) - {{ wine.winery }}
+            </h3>
+          </div>
+          <div class="flex gap-2 flex-1 justify-content-end pr-4">
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="round p-button-raised p-button-sm"
+              type="button"
+              (click)="deleteWine($index, $event)"
+            ></button>
+          </div>
+        </p-accordion-header>
+        <p-accordion-content>
+          <div class="flex flex-wrap gap-3">
+            <div class="flex flex-column flex-1">
+              <label for="wineName" class="text-primary-600 text-sm pb-1"
+                >Wine Name</label
+              >
+              <input
+                type="text"
+                pInputText
+                id="wineName"
+                [value]="wine.wineName"
+                name="wineName"
+              />
+            </div>
+            <div class="flex flex-column flex-1">
+              <label for="winery" class="text-primary-600 text-sm pb-1"
+                >Winery</label
+              >
+              <input
+                type="text"
+                pInputText
+                id="winery"
+                name="winery"
+                [value]="wine.winery"
+              />
+            </div>
+            <div class="flex flex-column flex-1">
+              <label for="vintage" class="text-primary-600 text-sm pb-1"
+                >Vintage</label
+              >
+              <input
+                type="number"
+                pInputText
+                id="vintage"
+                name="vintage"
+                [value]="wine.vintage"
+              />
+            </div>
+            <div class="flex flex-column flex-1">
+              <label for="wineStyle" class="text-primary-600 text-sm pb-1"
+                >Wine Style</label
+              >
+              <p-dropdown
+                id="wineStyle"
+                name="wineStyle"
+                [options]="_staticService.wineStyles"
+                placeholder="Select Style"
+                [(ngModel)]="wine.wineStyle"
+                appendTo="body"
+              />
+            </div>
+            <div class="flex flex-column flex-1">
+              <label for="varietal" class="text-primary-600 text-sm pb-1"
+                >Varietal</label
+              >
+              <input
+                type="text"
+                pInputText
+                id="varietal"
+                name="varietal"
+                [value]="wine.varietal"
+              />
+            </div>
+          </div>
+        </p-accordion-content>
+        <div class="w-full flex justify-content-end gap-3 pt-4">
+          <button
+            pButton
+            icon="pi pi-plus"
+            type="button"
+            class="round p-button-raised p-button-text custom-hover-button"
+            (click)="addWine()"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+      <p-divider></p-divider>
+    </p-accordion-panel>
+    }
+  </p-accordion>
+  <div class="w-full flex justify-content-center">
+    <button type="submit" pButton pRipple class="p-button-raised">
+      Save Changes
+    </button>
+  </div>
+</form>

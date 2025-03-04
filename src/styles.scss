@@ -1,5 +1,6 @@
 @import "primeflex/primeflex.css";
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;700&display=swap");
+@import "primeicons/primeicons.css";
 
 body {
   font-family: "open sans", "helvetica neue", "helvetica", serif;
@@ -15,6 +16,10 @@ body {
 
 .font-weight-light {
   font-weight: 300;
+}
+
+.font-weight-medium {
+  font-weight: 600;
 }
 
 .box-shadow-light {
@@ -35,4 +40,19 @@ body {
 
 .end-0 {
   right: 0;
+}
+
+.round {
+  border-radius: 100px !important;
+}
+
+.custom-hover-button {
+  transition: 0.3s ease-in-out !important;
+  background: #f8fafc !important;
+  border: 1px solid var(--p-primary-200) !important;
+
+  &:hover {
+    background-color: #deecde !important;
+    color: #064007 !important;
+  }
 }
