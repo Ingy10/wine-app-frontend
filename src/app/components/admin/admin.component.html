@@ -79,14 +79,66 @@
             </div>
             <div class="flex flex-column flex-1">
               <label for="varietal" class="text-primary-600 text-sm pb-1"
-                >Varietal</label
+                >Varietal(s)</label
+              >
+              <textarea
+                type="text"
+                pTextarea
+                rows="1"
+                id="varietal"
+                name="varietal"
+                [value]="wine.varietal"
+                autoResize="true"
+              ></textarea>
+            </div>
+            <div class="flex flex-column flex-1">
+              <label for="country" class="text-primary-600 text-sm pb-1"
+                >Country</label
+              >
+              <p-dropdown
+                id="country"
+                name="country"
+                [options]="_staticService.countries"
+                placeholder="Select Style"
+                [(ngModel)]="wine.country"
+                appendTo="body"
+              />
+            </div>
+            <div class="flex flex-column flex-1">
+                <label for="provinceState" class="text-primary-600 text-sm pb-1"
+                  >Province/State</label
+                >
+                <p-dropdown
+                  id="provinceState"
+                  name="provinceState"
+                  [options]=""
+                  placeholder="Select Style"
+                  [(ngModel)]="wine.country"
+                  appendTo="body"
+                />
+              </div>
+            <div class="flex flex-column flex-1">
+              <label for="region" class="text-primary-600 text-sm pb-1"
+                >Region</label
               >
               <input
                 type="text"
                 pInputText
-                id="varietal"
-                name="varietal"
-                [value]="wine.varietal"
+                id="region"
+                name="region"
+                [value]="wine.region"
+              />
+            </div>
+            <div class="flex flex-column flex-1">
+              <label for="subRegion" class="text-primary-600 text-sm pb-1"
+                >Sub Region</label
+              >
+              <input
+                type="text"
+                pInputText
+                id="subRegion"
+                name="subRegion"
+                [value]="wine.subRegion"
               />
             </div>
           </div>
