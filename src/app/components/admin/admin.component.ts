@@ -27,35 +27,11 @@ import { TextareaModule } from 'primeng/textarea';
 })
 export class AdminComponent {
   wineNameInput = '';
-  wines: Array<Wine> = [
-    {
-      id: 4,
-      wineName: 'Cruisy Cab',
-      winery: 'Napa Winery',
-      vintage: '2018',
-      wineStyle: 'Red',
-      varietal: 'Cabernet Sauvignon',
-      region: 'Napa Valley',
-      subRegion: 'Sonoma',
-      country: 'USA',
-      provinceState: 'California',
-      price: 45.99,
-      body: 'Full',
-      sugar: 'Dry',
-      alcoholContent: 14.5,
-      acidity: 'Medium',
-      tannins: 'Firm',
-      tastingNote1: 'Blackcurrant',
-      tastingNote2: 'Cedar',
-      tastingNote3: 'Jam',
-      tastingNote4: 'Plum',
-      tastingNote5: 'Stone',
-      servingTemp: '15-18°C',
-      foodPairings: 'Steak, Lamb, Hard Cheeses',
-    },
-  ];
+  wines: Array<Wine> = [];
 
-  constructor(public _staticService: StaticService) {}
+  constructor(public _staticService: StaticService) {
+    this.wines = _staticService.sampleWines;
+  }
 
   onSubmit() {
     console.log('[ADMIN] Form Submitted!');

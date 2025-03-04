@@ -2,9 +2,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;700&display=swap");
 @import "primeicons/primeicons.css";
 
-body {
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
   font-family: "open sans", "helvetica neue", "helvetica", serif;
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .card {
@@ -19,7 +26,7 @@ body {
 }
 
 .font-weight-medium {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .box-shadow-light {

@@ -4,16 +4,16 @@ import Lara from '@primeng/themes/lara';
 const WinePreset = definePreset(Lara, {
   semantic: {
     primary: {
-      50: '#ffffff', // Pure white
-      100: '#f5f5f5', // Light grayish white
-      200: '#e0e0e0', // Soft gray
-      300: '#c2c2c2', // Mid gray
-      400: '#a3a3a3', // Darker gray
+      50: '#fzfzf9', // Soft neutral white
+      100: '#ebe8e8', // Very light gray
+      200: '#d3cfcf', // Light warm gray
+      300: '#b5b0b0', // Medium gray with slight warmth
+      400: '#979191', // Deeper neutral gray
       500: '#800000', // Maroon (Main color)
       600: '#600000', // Deep maroon
       700: '#400000', // Darker maroon
       800: '#200000', // Almost black maroon
-      900: '#000000', // Black
+      900: '#0d0000', // Very deep maroon-black
       950: '#000000', // Pure black
     },
     background: '#000000', // Default background
@@ -26,6 +26,18 @@ const WinePreset = definePreset(Lara, {
     },
   },
   components: {
+    accordion: {
+      colorScheme: {
+        light: {
+          root: {
+            background: '#800000',
+          },
+          header: {
+            background: '#ebe8e8',
+          },
+        },
+      },
+    },
     menubar: {
       colorScheme: {
         light: {
