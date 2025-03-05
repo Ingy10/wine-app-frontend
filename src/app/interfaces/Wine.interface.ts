@@ -9,12 +9,12 @@ export interface Wine {
     subRegion: string;
     country: string;
     provinceState: string;
-    price: number;
+    price: number | null;
     
     // Wine characteristics
     body: string;
     sugar: string;
-    alcoholContent: number;
+    alcoholContent: number | null;
     acidity: string;
     tannins: string;
     

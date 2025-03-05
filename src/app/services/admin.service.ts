@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { StaticService } from './statics.service';
-import { Wine } from '../interfaces/Wine.interface';
 
 @Injectable({
   providedIn: 'root',

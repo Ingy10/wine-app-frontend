@@ -7,7 +7,7 @@
   <p-divider></p-divider>
   <p-accordion [multiple]="true" [value]="0" class="p-0">
     <ng-container formArrayName="wines">
-      @for (wine of wines; track $index) {
+      @for (wineControl of winesArray.controls; track $index) {
       <p-accordion-panel class="mb-2" [value]="$index">
         <ng-container [formGroupName]="$index">
           <div class="flex flex-column">
