@@ -1,155 +1,170 @@
 <app-header></app-header>
 
-<form class="card w-full" (submit)="onSubmit()">
+<form [formGroup]="wineForm" class="card w-full" (ngSubmit)="onSubmit()">
   <h1 class="w-full text-center text-primary-700 font-weight-light text-xxl">
     Wine List
   </h1>
   <p-divider></p-divider>
   <p-accordion [multiple]="true" [value]="0" class="p-0">
-    @for (wine of wines; track $index) {
-    <p-accordion-panel class="mb-2" [value]="$index">
-      <div class="flex flex-column">
-        <p-accordion-header class="flex justify-content-between py-0">
-          <div class="flex">
-            <h3 class="text-primary-800 font-weight-medium">
-              {{ $index + 1 }}.&nbsp;
-            </h3>
-            <h3
-              class="flex text-primary-800 font-weight-medium m-1 my-2 mr-2 align-items-center"
-            >
-              {{ wine.wineName }} ({{ wine.vintage }}) - {{ wine.winery }}
-            </h3>
+    <ng-container formArrayName="wines">
+      @for (wine of wines; track $index) {
+      <p-accordion-panel class="mb-2" [value]="$index">
+        <ng-container [formGroupName]="$index">
+          <div class="flex flex-column">
+            <p-accordion-header class="flex justify-content-between py-0">
+              <div class="flex">
+                <h3 class="text-primary-800 font-weight-medium">
+                  {{ $index + 1 }}.&nbsp;
+                </h3>
+                <h3
+                  class="flex text-primary-800 font-weight-medium m-1 my-2 mr-2 align-items-center"
+                >
+                  {{ winesArray.at($index).get("wineName")?.value }} ({{
+                    winesArray.at($index).get("vintage")?.value
+                  }}) - {{ winesArray.at($index).get("winery")?.value }}
+                </h3>
+              </div>
+              <div class="flex gap-2 flex-1 justify-content-end pr-3">
+                <button
+                  pButton
+                  icon="pi pi-trash"
+                  class="round p-button-raised p-button-sm"
+                  type="button"
+                  (click)="deleteWine($index, $event)"
+                ></button>
+              </div>
+            </p-accordion-header>
+            <p-accordion-content>
+              <div class="flex flex-wrap gap-3">
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="wineName_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Wine Name</label
+                  >
+                  <input
+                    type="text"
+                    pInputText
+                    id="wineName_{{ $index }}"
+                    formControlName="wineName"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="winery_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Winery</label
+                  >
+                  <input
+                    type="text"
+                    pInputText
+                    id="winery_{{ $index }}"
+                    formControlName="winery"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="vintage_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Vintage</label
+                  >
+                  <input
+                    type="number"
+                    pInputText
+                    id="vintage_{{ $index }}"
+                    formControlName="vintage"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="wineStyle_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Wine Style</label
+                  >
+                  <p-dropdown
+                    id="wineStyle_{{ $index }}"
+                    [options]="_staticService.wineStyles"
+                    placeholder="Select Style"
+                    formControlName="wineStyle"
+                    appendTo="body"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="varietal_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Varietal(s)</label
+                  >
+                  <textarea
+                    pTextarea
+                    rows="1"
+                    id="varietal_{{ $index }}"
+                    formControlName="varietal"
+                    autoResize="true"
+                  ></textarea>
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="country_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Country</label
+                  >
+                  <p-dropdown
+                    id="country_{{ $index }}"
+                    [options]="_staticService.countries"
+                    placeholder="Select Country"
+                    formControlName="country"
+                    appendTo="body"
+                    (onChange)="onCountryChange($index)"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="provinceState_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Province/State</label
+                  >
+                  <p-dropdown
+                    id="provinceState_{{ $index }}"
+                    [options]="wineStatesMap.get($index) || []"
+                    placeholder="Select Province/State"
+                    formControlName="provinceState"
+                    appendTo="body"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="region_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Region</label
+                  >
+                  <input
+                    type="text"
+                    pInputText
+                    id="region_{{ $index }}"
+                    formControlName="region"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="subRegion_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Sub Region</label
+                  >
+                  <input
+                    type="text"
+                    pInputText
+                    id="subRegion_{{ $index }}"
+                    formControlName="subRegion"
+                  />
+                </div>
+              </div>
+            </p-accordion-content>
           </div>
-          <div class="flex gap-2 flex-1 justify-content-end pr-3">
-            <button
-              pButton
-              icon="pi pi-trash"
-              class="round p-button-raised p-button-sm"
-              type="button"
-              (click)="deleteWine($index, $event)"
-            ></button>
-          </div>
-        </p-accordion-header>
-        <p-accordion-content>
-          <div class="flex flex-wrap gap-3">
-            <div class="flex flex-column flex-1">
-              <label for="wineName" class="text-primary-600 text-sm pb-1"
-                >Wine Name</label
-              >
-              <input
-                type="text"
-                pInputText
-                id="wineName"
-                [value]="wine.wineName"
-                name="wineName"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="winery" class="text-primary-600 text-sm pb-1"
-                >Winery</label
-              >
-              <input
-                type="text"
-                pInputText
-                id="winery"
-                name="winery"
-                [value]="wine.winery"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="vintage" class="text-primary-600 text-sm pb-1"
-                >Vintage</label
-              >
-              <input
-                type="number"
-                pInputText
-                id="vintage"
-                name="vintage"
-                [value]="wine.vintage"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="wineStyle" class="text-primary-600 text-sm pb-1"
-                >Wine Style</label
-              >
-              <p-dropdown
-                id="wineStyle"
-                name="wineStyle"
-                [options]="_staticService.wineStyles"
-                placeholder="Select Style"
-                [(ngModel)]="wine.wineStyle"
-                appendTo="body"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="varietal" class="text-primary-600 text-sm pb-1"
-                >Varietal(s)</label
-              >
-              <textarea
-                type="text"
-                pTextarea
-                rows="1"
-                id="varietal"
-                name="varietal"
-                [value]="wine.varietal"
-                autoResize="true"
-              ></textarea>
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="country" class="text-primary-600 text-sm pb-1"
-                >Country</label
-              >
-              <p-dropdown
-                id="country"
-                name="country"
-                [options]="_staticService.countries"
-                placeholder="Select Style"
-                [(ngModel)]="wine.country"
-                appendTo="body"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="provinceState" class="text-primary-600 text-sm pb-1"
-                >Province/State</label
-              >
-              <p-dropdown
-                id="provinceState"
-                name="provinceState"
-                [options]=""
-                placeholder="Select Style"
-                [(ngModel)]="wine.country"
-                appendTo="body"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="region" class="text-primary-600 text-sm pb-1"
-                >Region</label
-              >
-              <input
-                type="text"
-                pInputText
-                id="region"
-                name="region"
-                [value]="wine.region"
-              />
-            </div>
-            <div class="flex flex-column flex-1">
-              <label for="subRegion" class="text-primary-600 text-sm pb-1"
-                >Sub Region</label
-              >
-              <input
-                type="text"
-                pInputText
-                id="subRegion"
-                name="subRegion"
-                [value]="wine.subRegion"
-              />
-            </div>
-          </div>
-        </p-accordion-content>
-      </div>
-    </p-accordion-panel>
-    }
+        </ng-container>
+      </p-accordion-panel>
+      }
+    </ng-container>
     <div class="w-full flex justify-content-end gap-3 pt-1">
       <button
         pButton
