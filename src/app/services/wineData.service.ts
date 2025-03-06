@@ -28,6 +28,20 @@ export class WineDataService {
       });
   }
 
+  deleteWine(id: number) {
+    this._apiService
+      .deleteWine(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          console.log('[WINE DATA] Successfully deleted wine with id:', id);
+        },
+        error: (error) => {
+          console.error('[WINE DATA] Error deleting wine with id:', id);
+        },
+      });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

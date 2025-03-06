@@ -18,7 +18,7 @@ import { StaticService } from '../../services/statics.service';
 import { TextareaModule } from 'primeng/textarea';
 import { AdminService } from '../../services/admin.service';
 import { WineDataService } from '../../services/wineData.service';
-import { Subject, takeUntil } from 'rxjs';
+import { first, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -49,8 +49,6 @@ export class AdminComponent {
     private _wineDataService: WineDataService,
     private fb: FormBuilder
   ) {
-    // this.wines = _staticService.sampleWines; // TODO: Get wine from api
-
     // Initialize the form with an empty structure
     this.wineForm = this.fb.group({
       wines: this.fb.array([]),
@@ -58,15 +56,15 @@ export class AdminComponent {
   }
 
   ngOnInit() {
+    this._wineDataService.loadWines();
     this._wineDataService.wines$
       .pipe(takeUntil(this.destroy$))
       .subscribe((wines) => {
         this.wines = wines;
+        console.log('[ADMIN] wines after init:', wines);
 
         this.initForm();
       });
-
-    this._wineDataService.loadWines();
   }
 
   // *** Form Group Related Methods *** //
@@ -80,9 +78,19 @@ export class AdminComponent {
       this.wines.forEach((wine) => {
         this.addWineFormGroup(wine);
       });
-    } else {
-      this.addEmptyWineForm();
     }
+  }
+
+  // After the view is initialized, check if we have any wines. If not, add an empty form.
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (this.winesArray.length === 0) {
+        this.addEmptyWineForm();
+        console.log(
+          '[ADMIN] No wines found after view init, adding empty form'
+        );
+      }
+    });
   }
 
   // Helper to get the wines FormArray
@@ -90,6 +98,7 @@ export class AdminComponent {
     return this.wineForm.get('wines') as FormArray;
   }
 
+  // Initializes empty form with empty strings/null values
   addEmptyWineForm() {
     const emptyWine: Wine = {
       wineName: '',
@@ -173,19 +182,25 @@ export class AdminComponent {
     wineGroup.get('provinceState')?.setValue('');
   }
 
+  // *** CRUD operations, besides initial GET request on load ***
+  // Form submission to update wine list
   onSubmit() {
     console.log('[ADMIN] Form Submitted!');
   }
 
-  deleteWine(index: number, e: any) {
+  // Delete a wine
+  deleteWine(index: number, e: any, wine: any) {
     e.stopPropagation();
-    console.log('[ADMIN] Delete wine from index', index);
+
     this.winesArray.removeAt(index);
-    console.log('[ADMIN] Wine Array after deletion', this.winesArray);
+
+    if (wine?.id) {
+      this._wineDataService.deleteWine(wine?.id);
+    }
   }
 
+  // Add a new form entry for a new wine
   addWine() {
-    console.log('[ADMIN] New wine form added');
     this.addEmptyWineForm();
   }
 
