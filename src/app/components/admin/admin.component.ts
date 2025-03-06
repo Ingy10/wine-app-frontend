@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { InputTextModule } from 'primeng/inputtext';
 import {
@@ -19,6 +19,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { AdminService } from '../../services/admin.service';
 import { WineDataService } from '../../services/wineData.service';
 import { first, Subject, takeUntil } from 'rxjs';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-admin',
@@ -32,6 +33,7 @@ import { first, Subject, takeUntil } from 'rxjs';
     DropdownModule,
     TextareaModule,
     ReactiveFormsModule,
+    ProgressSpinner,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
@@ -42,6 +44,9 @@ export class AdminComponent {
   selectedCountryStates: Array<String> = [];
   wineStatesMap: Map<number, Array<String>> = new Map();
   private destroy$ = new Subject<void>();
+  originalWines: { [id: number]: Wine } = {};
+  isValid = true;
+  isLoading = false;
 
   constructor(
     public _staticService: StaticService,
@@ -56,6 +61,7 @@ export class AdminComponent {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this._wineDataService.loadWines();
     this._wineDataService.wines$
       .pipe(takeUntil(this.destroy$))
@@ -74,11 +80,20 @@ export class AdminComponent {
       this.winesArray.removeAt(0);
     }
 
+    this.originalWines = {};
+
     if (this.wines && this.wines.length > 0) {
       this.wines.forEach((wine) => {
+        if (wine.id) {
+          this.originalWines[wine.id] = { ...wine };
+        }
         this.addWineFormGroup(wine);
       });
     }
+    console.log('[ADMIN] Original Wines Object:', this.originalWines);
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   // After the view is initialized, check if we have any wines. If not, add an empty form.
@@ -186,6 +201,87 @@ export class AdminComponent {
   // Form submission to update wine list
   onSubmit() {
     console.log('[ADMIN] Form Submitted!');
+    this.isLoading = true;
+
+    console.log('[ADMIN] Wines Array On Submit:', this.winesArray?.value);
+    console.log('[ADMIN] Oringal Wines On Submit:', this.originalWines);
+
+    if (this.wineForm.valid) {
+      const wineValues = this.winesArray?.value;
+      const changes = {
+        newWines: [] as Wine[],
+        updatedWines: [] as Wine[],
+      };
+
+      wineValues.forEach((wine: Wine) => {
+        if (!wine?.id) {
+          changes.newWines.push(wine);
+        } else if (
+          this._adminService.hasWineChanged(wine, this.originalWines[wine?.id])
+        ) {
+          changes.updatedWines.push(wine);
+        }
+      });
+
+      console.log('[ADMIN] Changed/Updated wines to submit:', changes);
+
+      changes.newWines.forEach((wine) => {
+        this._wineDataService
+          .addWine(wine)
+          .pipe(first())
+          .subscribe({
+            next: (response) => {
+              console.log('[ADMIN] Successfully added wine:', response);
+            },
+            error: (error) => {
+              console.error('[ADMIN] Error adding wine:', error);
+            },
+          });
+      });
+
+      changes.updatedWines.forEach((wine) => {
+        this._wineDataService
+          .updateWine(wine.id!, wine)
+          .pipe(first())
+          .subscribe({
+            next: (response) => {
+              console.log(
+                '[ADMIN] Successfully updated wine with id:',
+                wine.id,
+                ' - ',
+                response
+              );
+            },
+            error: (error) => {
+              console.error(
+                '[ADMIN] Error updating wine with id:',
+                wine.id,
+                ' - ',
+                error
+              );
+            },
+          });
+      });
+
+      if (changes.newWines.length === 0 && changes.updatedWines.length === 0) {
+        console.log('[ADMIN] No changes to submit');
+        this.isValid = true;
+        this.isLoading = false;
+      } else {
+        console.log('[ADMIN] Re initializing form');
+        this.wineForm = this.fb.group({
+          wines: this.fb.array([]),
+        });
+        setTimeout(() => {
+          this._wineDataService.loadWines();
+        }, 1000);
+        this.isValid = true;
+      }
+    } else {
+      console.error('[ADMIN] Form has validation errors');
+      this.isValid = false;
+      this.isLoading = false;
+    }
   }
 
   // Delete a wine

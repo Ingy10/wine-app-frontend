@@ -42,6 +42,14 @@ export class WineDataService {
       });
   }
 
+  addWine(wine: Wine) {
+    return this._apiService.PostWines(wine);
+  }
+
+  updateWine(id: number, wine: Wine) {
+    return this._apiService.PutWines(id, wine);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

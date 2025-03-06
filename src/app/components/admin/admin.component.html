@@ -1,11 +1,16 @@
 <app-header></app-header>
 
+@if (isLoading) {
+<div class="spinner-overlay">
+  <p-progress-spinner></p-progress-spinner>
+</div>
+} @else {
 <form [formGroup]="wineForm" class="card w-full" (ngSubmit)="onSubmit()">
   <h1 class="w-full text-center text-primary-700 font-weight-light text-xxl">
     Wine List
   </h1>
   <p-divider></p-divider>
-  <p-accordion [multiple]="true" [value]="0" class="p-0">
+  <p-accordion [multiple]="true" class="p-0">
     <ng-container formArrayName="wines">
       @for (wineControl of winesArray.controls; track $index) {
       <p-accordion-panel class="mb-2" [value]="$index">
@@ -178,6 +183,13 @@
     </div>
     <p-divider></p-divider>
   </p-accordion>
+  <p
+    class="w-full text-center"
+    [style]="{ color: 'red', display: isValid ? 'none' : '' }"
+  >
+    *Wine Name, Winery, Vintage, Wine Style, Varietal and Country are all
+    required Fields
+  </p>
   <div class="w-full flex justify-content-center pt-3">
     <button
       type="submit"
@@ -189,3 +201,4 @@
     </button>
   </div>
 </form>
+}
