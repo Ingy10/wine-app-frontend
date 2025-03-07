@@ -76,3 +76,11 @@ html {
   align-items: center;
   z-index: 1000;
 }
+
+.invalid-border-only {
+  border-color: #f44336 !important; /* Red border */
+
+  &::placeholder {
+    color: var(--p-surface-500) !important; /* Default placeholder color */
+  }
+}

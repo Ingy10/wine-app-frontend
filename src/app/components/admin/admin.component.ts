@@ -158,7 +158,10 @@ export class AdminComponent {
       winery: [wine.winery, Validators.required],
       vintage: [wine.vintage, Validators.required],
       wineStyle: [wine.wineStyle, Validators.required],
-      varietal: [wine.varietal, Validators.required],
+      varietal: [
+        wine.varietal,
+        [Validators.required, Validators.pattern(/^[a-zA-Z\s,]+$/)],
+      ],
       country: [wine.country, Validators.required],
       provinceState: [wine.provinceState],
       region: [wine.region],

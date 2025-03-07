@@ -134,19 +134,28 @@
                   >
                   <textarea
                     pTextarea
+                    placeholder="eg. Merlot, Cabernet Sauvignon..."
                     rows="1"
                     id="varietal_{{ $index }}"
                     formControlName="varietal"
                     autoResize="true"
-                    [class.ng-invalid]="
+                    [class.invalid-border-only]="
                       winesArray.at($index).get('varietal')?.invalid &&
                       winesArray.at($index).get('varietal')?.touched
                     "
-                    [class.ng-dirty]="
+                    [class.invalid-border-only]="
                       winesArray.at($index).get('varietal')?.invalid &&
                       winesArray.at($index).get('varietal')?.touched
                     "
                   ></textarea>
+                  @if (winesArray.at($index).get('varietal')?.invalid &&
+                  winesArray.at($index).get('varietal')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Enter Varietals as a comma separated List. Only letters and commas accepted as input.</small
+                  >
+                  }
                 </div>
                 <div class="flex flex-column flex-1">
                   <label
