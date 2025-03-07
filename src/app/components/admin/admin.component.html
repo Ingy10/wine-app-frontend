@@ -52,6 +52,14 @@
                     pInputText
                     id="wineName_{{ $index }}"
                     formControlName="wineName"
+                    [class.ng-invalid]="
+                      winesArray.at($index).get('wineName')?.invalid &&
+                      winesArray.at($index).get('wineName')?.touched
+                    "
+                    [class.ng-dirty]="
+                      winesArray.at($index).get('wineName')?.invalid &&
+                      winesArray.at($index).get('wineName')?.touched
+                    "
                   />
                 </div>
                 <div class="flex flex-column flex-1">
@@ -65,6 +73,14 @@
                     pInputText
                     id="winery_{{ $index }}"
                     formControlName="winery"
+                    [class.ng-invalid]="
+                      winesArray.at($index).get('winery')?.invalid &&
+                      winesArray.at($index).get('winery')?.touched
+                    "
+                    [class.ng-dirty]="
+                      winesArray.at($index).get('winery')?.invalid &&
+                      winesArray.at($index).get('winery')?.touched
+                    "
                   />
                 </div>
                 <div class="flex flex-column flex-1">
@@ -78,6 +94,14 @@
                     pInputText
                     id="vintage_{{ $index }}"
                     formControlName="vintage"
+                    [class.ng-invalid]="
+                      winesArray.at($index).get('vintage')?.invalid &&
+                      winesArray.at($index).get('vintage')?.touched
+                    "
+                    [class.ng-dirty]="
+                      winesArray.at($index).get('vintage')?.invalid &&
+                      winesArray.at($index).get('vintage')?.touched
+                    "
                   />
                 </div>
                 <div class="flex flex-column flex-1">
@@ -86,12 +110,20 @@
                     class="text-primary-600 text-sm pb-1"
                     >Wine Style</label
                   >
-                  <p-dropdown
+                  <p-select
                     id="wineStyle_{{ $index }}"
                     [options]="_staticService.wineStyles"
                     placeholder="Select Style"
                     formControlName="wineStyle"
                     appendTo="body"
+                    [class.ng-invalid]="
+                      winesArray.at($index).get('wineStyle')?.invalid &&
+                      winesArray.at($index).get('wineStyle')?.touched
+                    "
+                    [class.ng-dirty]="
+                      winesArray.at($index).get('wineStyle')?.invalid &&
+                      winesArray.at($index).get('wineStyle')?.touched
+                    "
                   />
                 </div>
                 <div class="flex flex-column flex-1">
@@ -106,6 +138,14 @@
                     id="varietal_{{ $index }}"
                     formControlName="varietal"
                     autoResize="true"
+                    [class.ng-invalid]="
+                      winesArray.at($index).get('varietal')?.invalid &&
+                      winesArray.at($index).get('varietal')?.touched
+                    "
+                    [class.ng-dirty]="
+                      winesArray.at($index).get('varietal')?.invalid &&
+                      winesArray.at($index).get('varietal')?.touched
+                    "
                   ></textarea>
                 </div>
                 <div class="flex flex-column flex-1">
@@ -114,13 +154,21 @@
                     class="text-primary-600 text-sm pb-1"
                     >Country</label
                   >
-                  <p-dropdown
+                  <p-select
                     id="country_{{ $index }}"
                     [options]="_staticService.countries"
                     placeholder="Select Country"
                     formControlName="country"
                     appendTo="body"
                     (onChange)="onCountryChange($index)"
+                    [class.ng-invalid]="
+                      winesArray.at($index).get('country')?.invalid &&
+                      winesArray.at($index).get('country')?.touched
+                    "
+                    [class.ng-dirty]="
+                      winesArray.at($index).get('country')?.invalid &&
+                      winesArray.at($index).get('country')?.touched
+                    "
                   />
                 </div>
                 <div class="flex flex-column flex-1">
@@ -129,7 +177,7 @@
                     class="text-primary-600 text-sm pb-1"
                     >Province/State</label
                   >
-                  <p-dropdown
+                  <p-select
                     id="provinceState_{{ $index }}"
                     [options]="wineStatesMap.get($index) || []"
                     placeholder="Select Province/State"
@@ -161,6 +209,97 @@
                     pInputText
                     id="subRegion_{{ $index }}"
                     formControlName="subRegion"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="price_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Price</label
+                  >
+                  <p-inputnumber
+                    formControlName="price"
+                    id="price_{{ $index }}"
+                    mode="currency"
+                    inputId="currency-us"
+                    currency="USD"
+                    locale="en-US"
+                  />
+                </div>
+              </div>
+              <p-divider align="left" type="dotted"
+                >Wine Characteristics</p-divider
+              >
+              <div class="flex flex-wrap gap-3">
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="body_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Body</label
+                  >
+                  <p-select
+                    id="body_{{ $index }}"
+                    [options]="this._staticService.body"
+                    placeholder="Select Body"
+                    formControlName="body"
+                    appendTo="body"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="sugar_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Sugar Content</label
+                  >
+                  <p-select
+                    id="sugar_{{ $index }}"
+                    [options]="this._staticService.sugar"
+                    placeholder="Select Sugar Content"
+                    formControlName="sugar"
+                    appendTo="body"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="alcoholContent_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Alcohol Content</label
+                  >
+                  <p-inputnumber
+                    formControlName="alcoholContent"
+                    id="alcoholContent_{{ $index }}"
+                    mode="decimal"
+                    locale="en-US"
+                    [minFractionDigits]="2"
+                    prefix="%"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="acidity_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Acidity</label
+                  >
+                  <p-select
+                    id="acidity_{{ $index }}"
+                    [options]="this._staticService.acidity"
+                    placeholder="Select Acidity"
+                    formControlName="acidity"
+                    appendTo="body"
+                  />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="tannins_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Tanins</label
+                  >
+                  <p-select
+                    id="tannins_{{ $index }}"
+                    [options]="this._staticService.tanins"
+                    placeholder="Select Tanins"
+                    formControlName="tannins"
+                    appendTo="body"
                   />
                 </div>
               </div>

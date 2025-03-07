@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StaticService } from './statics.service';
 import { Wine } from '../interfaces/Wine.interface';
+import { FormGroup, FormArray } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -60,5 +61,17 @@ export class AdminService {
       wine.servingTemp !== original.servingTemp ||
       wine.foodPairings !== original.foodPairings
     );
+  }
+
+  // Method to mark form fields as touched
+  markFormGroupTouched(formGroup: FormGroup | FormArray) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+
+      // If the control is a FormGroup or FormArray, recursively mark its children
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

@@ -20,6 +20,9 @@ import { AdminService } from '../../services/admin.service';
 import { WineDataService } from '../../services/wineData.service';
 import { first, Subject, takeUntil } from 'rxjs';
 import { ProgressSpinner } from 'primeng/progressspinner';
+import { SelectModule } from 'primeng/select';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-admin',
@@ -34,6 +37,9 @@ import { ProgressSpinner } from 'primeng/progressspinner';
     TextareaModule,
     ReactiveFormsModule,
     ProgressSpinner,
+    SelectModule,
+    InputNumberModule,
+    FloatLabelModule,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
@@ -205,6 +211,8 @@ export class AdminComponent {
 
     console.log('[ADMIN] Wines Array On Submit:', this.winesArray?.value);
     console.log('[ADMIN] Oringal Wines On Submit:', this.originalWines);
+
+    this._adminService.markFormGroupTouched(this.wineForm);
 
     if (this.wineForm.valid) {
       const wineValues = this.winesArray?.value;
