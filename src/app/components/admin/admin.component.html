@@ -22,7 +22,8 @@
                 border:
                   !isValid && _adminService.isWineFormGroupInvalid(wineControl)
                     ? '1px solid red'
-                    : 'none'
+                    : 'none',
+                background: _adminService.wineStyleColorSelect(winesArray.at($index).get('wineStyle')?.value),
               }"
             >
               <div class="flex">

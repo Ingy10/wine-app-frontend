@@ -137,4 +137,19 @@ export class AdminService {
 
     return '';
   }
+
+  wineStyleColorSelect(color: string): string {
+    switch (color) {
+      case 'White':
+        return '#eeeee2';
+      case 'Red':
+        return '#e2d8d8';
+      case 'Rose':
+        return '#f5e6ea';
+      case 'Orange':
+        return '#eee6db';
+      default:
+        return '';
+    }
+  }
 }

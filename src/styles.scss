@@ -85,16 +85,3 @@ html {
     color: var(--p-surface-500) !important; /* Default placeholder color */
   }
 }
-
-::ng-deep .invalid-accordion {
-  .p-accordion-header {
-    border-color: #ff0000 !important;
-    .p-accordion-header-link {
-      border-color: #ff0000 !important;
-    }
-  }
-
-  .p-accordion-content {
-    border-color: #ff0000 !important;
-  }
-}
