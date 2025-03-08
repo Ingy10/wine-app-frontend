@@ -16,6 +16,40 @@ const WinePreset = definePreset(Lara, {
       900: '#0d0000', // Very deep maroon-black
       950: '#000000', // Pure black
     },
+    colorScheme: {
+      light: {
+        surface: {
+          0: '#ffffff', // Base surface color
+          50: '#f9f9f9', // Very light gray
+          100: '#f2f2f2', // Light gray
+          200: '#e6e6e6', // Gray with subtle warmth
+          300: '#cccccc', // Medium gray
+          400: '#b3b3b3', // Warm medium gray
+          500: '#999999', // Balanced gray
+          600: '#808080', // Slightly darker gray
+          700: '#555556', // Dark gray
+          800: '#4d4d4d', // Very dark gray
+          900: '#333333', // Near black
+          950: '#1a1a1a', // Deep near black
+        },
+      },
+      dark: {
+        surface: {
+          0: '#1a1a1a', // Deep near black
+          50: '#333333', // Near black
+          100: '#4d4d4d', // Very dark gray
+          200: '#666666', // Dark gray
+          300: '#808080', // Slightly darker gray
+          400: '#999999', // Balanced gray
+          500: '#b3b3b3', // Warm medium gray
+          600: '#cccccc', // Medium gray
+          700: '#e6e6e6', // Gray with subtle warmth
+          800: '#f2f2f2', // Light gray
+          900: '#f9f9f9', // Very light gray
+          950: '#ffffff', // Base surface color
+        },
+      },
+    },
     background: '#000000', // Default background
     foreground: '#ffffff', // Ensuring contrast
 

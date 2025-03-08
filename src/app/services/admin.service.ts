@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { StaticService } from './statics.service';
 import { Wine } from '../interfaces/Wine.interface';
-import { FormGroup, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormArray,
+  FormControl,
+  AbstractControl,
+} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
+  filteredCharacteristics: string[] = [];
+
   constructor(private _staticService: StaticService) {}
 
   // Method to select states to be shown given a wine
@@ -53,11 +60,8 @@ export class AdminService {
       wine.alcoholContent !== original.alcoholContent ||
       wine.acidity !== original.acidity ||
       wine.tannins !== original.tannins ||
-      wine.tastingNote1 !== original.tastingNote1 ||
-      wine.tastingNote2 !== original.tastingNote2 ||
-      wine.tastingNote3 !== original.tastingNote3 ||
-      wine.tastingNote4 !== original.tastingNote4 ||
-      wine.tastingNote5 !== original.tastingNote5 ||
+      wine.tastingNotes !== original.tastingNotes ||
+      wine.characteristics !== original.characteristics ||
       wine.servingTemp !== original.servingTemp ||
       wine.foodPairings !== original.foodPairings
     );
@@ -73,5 +77,66 @@ export class AdminService {
         this.markFormGroupTouched(control);
       }
     });
+  }
+
+  // Checks to see if all required fields for a given wine are valid
+  isWineFormGroupInvalid(wineGroup: AbstractControl): boolean {
+    return (
+      wineGroup.get('wineName')?.invalid ||
+      wineGroup.get('winery')?.invalid ||
+      wineGroup.get('vintage')?.invalid ||
+      wineGroup.get('wineStyle')?.invalid ||
+      wineGroup.get('varietal')?.invalid ||
+      wineGroup.get('country')?.invalid ||
+      false
+    );
+  }
+
+  // Filter the characteristics based on what the user types
+  search(event: any) {
+    console.log('[ADMIN] event:', event);
+    const query = event.query.toLowerCase();
+    this.filteredCharacteristics = this._staticService.characteristics.filter(
+      (characteristic) => characteristic.toLowerCase().includes(query)
+    );
+  }
+
+  // Converts comma separated string to an array
+  stringToArray(characteristicsString: any): string[] {
+    if (!characteristicsString) {
+      return [];
+    }
+
+    if (Array.isArray(characteristicsString)) {
+      return characteristicsString;
+    }
+
+    if (
+      typeof characteristicsString === 'string' &&
+      characteristicsString.length > 0
+    ) {
+      return characteristicsString.split(',').map((item) => item.trim());
+    }
+
+    return [];
+  }
+
+  // Converts array to comma separated string
+  arrayToString(characteristicsArray: any): string {
+    if (!characteristicsArray) {
+      return '';
+    }
+
+    // If it's already a string, return it
+    if (typeof characteristicsArray === 'string') {
+      return characteristicsArray;
+    }
+
+    // If it's an array, join it into a string
+    if (Array.isArray(characteristicsArray)) {
+      return characteristicsArray.join(', ');
+    }
+
+    return '';
   }
 }

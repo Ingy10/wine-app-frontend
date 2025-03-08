@@ -19,6 +19,7 @@ html {
   background-color: var(--p-primary-50);
   box-shadow: inset 2px 2px 5px var(--p-primary-200);
   border-radius: 10px;
+  color: #555556;
 }
 
 .font-weight-light {
@@ -82,5 +83,18 @@ html {
 
   &::placeholder {
     color: var(--p-surface-500) !important; /* Default placeholder color */
+  }
+}
+
+::ng-deep .invalid-accordion {
+  .p-accordion-header {
+    border-color: #ff0000 !important;
+    .p-accordion-header-link {
+      border-color: #ff0000 !important;
+    }
+  }
+
+  .p-accordion-content {
+    border-color: #ff0000 !important;
   }
 }

@@ -16,7 +16,15 @@
       <p-accordion-panel class="mb-2" [value]="$index">
         <ng-container [formGroupName]="$index">
           <div class="flex flex-column">
-            <p-accordion-header class="flex justify-content-between py-0">
+            <p-accordion-header
+              class="flex justify-content-between py-0"
+              [style]="{
+                border:
+                  !isValid && _adminService.isWineFormGroupInvalid(wineControl)
+                    ? '1px solid red'
+                    : 'none'
+              }"
+            >
               <div class="flex">
                 <h3 class="text-primary-800 font-weight-medium">
                   {{ $index + 1 }}.&nbsp;
@@ -61,6 +69,14 @@
                       winesArray.at($index).get('wineName')?.touched
                     "
                   />
+                  @if (winesArray.at($index).get('wineName')?.invalid &&
+                  winesArray.at($index).get('wineName')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
+                  >
+                  }
                 </div>
                 <div class="flex flex-column flex-1">
                   <label
@@ -82,8 +98,19 @@
                       winesArray.at($index).get('winery')?.touched
                     "
                   />
+                  @if (winesArray.at($index).get('winery')?.invalid &&
+                  winesArray.at($index).get('winery')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
+                  >
+                  }
                 </div>
-                <div class="flex flex-column flex-1">
+                <div
+                  class="flex flex-column flex-1"
+                  [style]="{ 'max-width': '150px', 'min-width': '100px' }"
+                >
                   <label
                     for="vintage_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
@@ -103,6 +130,12 @@
                       winesArray.at($index).get('vintage')?.touched
                     "
                   />
+                  @if (winesArray.at($index).get('vintage')?.invalid &&
+                  winesArray.at($index).get('vintage')?.touched) {
+                  <small class="pt-1 text-center" [style]="{ color: 'red' }"
+                    >*Must be 4 digits (eg. 1985)</small
+                  >
+                  }
                 </div>
                 <div class="flex flex-column flex-1">
                   <label
@@ -150,10 +183,12 @@
                   ></textarea>
                   @if (winesArray.at($index).get('varietal')?.invalid &&
                   winesArray.at($index).get('varietal')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Enter Varietals as a comma separated List. Only letters and commas accepted as input.</small
+                  <small class="pt-1 text-center" [style]="{ color: 'red' }"
+                    >*Enter Varietals as a comma separated List. Only letters
+                    and commas accepted as input.</small
+                  >
+                  <small class="pt-1 text-center" [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
                   >
                   }
                 </div>
@@ -206,6 +241,14 @@
                     id="region_{{ $index }}"
                     formControlName="region"
                   />
+                  @if (winesArray.at($index).get('region')?.invalid &&
+                  winesArray.at($index).get('region')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
+                  >
+                  }
                 </div>
                 <div class="flex flex-column flex-1">
                   <label
@@ -219,8 +262,19 @@
                     id="subRegion_{{ $index }}"
                     formControlName="subRegion"
                   />
+                  @if (winesArray.at($index).get('subRegion')?.invalid &&
+                  winesArray.at($index).get('subRegion')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
+                  >
+                  }
                 </div>
-                <div class="flex flex-column flex-1">
+                <div
+                  class="flex flex-column flex-1"
+                  [style]="{ 'max-width': '150px', 'min-width': '100px' }"
+                >
                   <label
                     for="price_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
@@ -233,10 +287,13 @@
                     inputId="currency-us"
                     currency="USD"
                     locale="en-US"
+                    fluid
                   />
                 </div>
               </div>
-              <p-divider align="left" type="dotted"
+
+              <!-- Wine Characteristics -->
+              <p-divider align="left" type="solid"
                 >Wine Characteristics</p-divider
               >
               <div class="flex flex-wrap gap-3">
@@ -254,7 +311,7 @@
                     appendTo="body"
                   />
                 </div>
-                <div class="flex flex-column flex-1">
+                <div class="flex flex-column flex-1" style="min-width: 100px">
                   <label
                     for="sugar_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
@@ -268,7 +325,10 @@
                     appendTo="body"
                   />
                 </div>
-                <div class="flex flex-column flex-1">
+                <div
+                  class="flex flex-column flex-1"
+                  [style]="{ 'max-width': '150px', 'min-width': '100px' }"
+                >
                   <label
                     for="alcoholContent_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
@@ -280,7 +340,8 @@
                     mode="decimal"
                     locale="en-US"
                     [minFractionDigits]="2"
-                    prefix="%"
+                    suffix="%"
+                    fluid
                   />
                 </div>
                 <div class="flex flex-column flex-1">
@@ -310,6 +371,121 @@
                     formControlName="tannins"
                     appendTo="body"
                   />
+                </div>
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="tastingNotes_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Tasting Note(s)</label
+                  >
+                  <textarea
+                    pTextarea
+                    placeholder="eg. Cherry, Vanilla, Oak..."
+                    rows="1"
+                    id="tastingNotes_{{ $index }}"
+                    formControlName="tastingNotes"
+                    autoResize="true"
+                    [class.invalid-border-only]="
+                      winesArray.at($index).get('tastingNotes')?.invalid &&
+                      winesArray.at($index).get('tastingNotes')?.touched
+                    "
+                    [class.invalid-border-only]="
+                      winesArray.at($index).get('tastingNotes')?.invalid &&
+                      winesArray.at($index).get('tastingNotes')?.touched
+                    "
+                  ></textarea>
+                  @if (winesArray.at($index).get('tastingNotes')?.invalid &&
+                  winesArray.at($index).get('tastingNotes')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Enter Tasting Notes as a comma separated List. Only
+                    letters and commas accepted as input.</small
+                  >
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
+                  >
+                  }
+                </div>
+                <div class="flex flex-column flex-1" style="min-width: 150px">
+                  <label
+                    for="characteristics_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Characteristics</label
+                  >
+                  <p-autocomplete
+                    formControlName="characteristics"
+                    inputId="characteristics_{{ $index }}"
+                    [multiple]="true"
+                    fluid
+                    [suggestions]="_adminService.filteredCharacteristics"
+                    (completeMethod)="_adminService.search($event)"
+                    placeholder="eg. Fruity, Smooth..."
+                  />
+                </div>
+              </div>
+
+              <!-- Serving Notes -->
+              <p-divider align="left" type="solid">Serving Notes</p-divider>
+              <div class="flex flex-wrap gap-3">
+                <div class="flex flex-column flex-1">
+                  <label
+                    for="foodPairings_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Food Pairing(s)</label
+                  >
+                  <textarea
+                    pTextarea
+                    placeholder="eg. Steak, Hard Cheeses..."
+                    rows="1"
+                    id="foodPairings_{{ $index }}"
+                    formControlName="foodPairings"
+                    autoResize="true"
+                    [class.invalid-border-only]="
+                      winesArray.at($index).get('foodPairings')?.invalid &&
+                      winesArray.at($index).get('foodPairings')?.touched
+                    "
+                    [class.invalid-border-only]="
+                      winesArray.at($index).get('foodPairings')?.invalid &&
+                      winesArray.at($index).get('foodPairings')?.touched
+                    "
+                  ></textarea>
+                  @if (winesArray.at($index).get('foodPairings')?.invalid &&
+                  winesArray.at($index).get('foodPairings')?.touched) {
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Enter Food Pairings as a comma separated List. Only
+                    letters and commas accepted as input.</small
+                  >
+                  <small
+                    class="text-color-red pt-1 text-center"
+                    [style]="{ color: 'red' }"
+                    >*Max length 255 characters.</small
+                  >
+                  }
+                </div>
+                <div
+                  class="flex flex-column flex-1"
+                  [style]="{ 'max-width': '150px', 'min-width': '120px' }"
+                >
+                  <label
+                    for="servingTemp_{{ $index }}"
+                    class="text-primary-600 text-sm pb-1"
+                    >Serving Temperature</label
+                  >
+                  <p-inputGroup>
+                    <input
+                      formControlName="servingTemp"
+                      pInputText
+                      id="servingTemp_{{ $index }}"
+                    />
+                    <p-inputGroupAddon class="p-inputtext-suffix"
+                      >°C</p-inputGroupAddon
+                    >
+                  </p-inputGroup>
                 </div>
               </div>
             </p-accordion-content>

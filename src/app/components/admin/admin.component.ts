@@ -23,6 +23,9 @@ import { ProgressSpinner } from 'primeng/progressspinner';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-admin',
@@ -40,6 +43,9 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     SelectModule,
     InputNumberModule,
     FloatLabelModule,
+    AutoCompleteModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
@@ -137,11 +143,8 @@ export class AdminComponent {
       alcoholContent: null,
       acidity: '',
       tannins: '',
-      tastingNote1: '',
-      tastingNote2: '',
-      tastingNote3: '',
-      tastingNote4: '',
-      tastingNote5: '',
+      tastingNotes: '',
+      characteristics: '',
       servingTemp: '',
       foodPairings: '',
     };
@@ -154,31 +157,47 @@ export class AdminComponent {
     console.log('[ADMIN] wine:', wine);
     const wineGroup = this.fb.group({
       id: [wine.id],
-      wineName: [wine.wineName, Validators.required],
-      winery: [wine.winery, Validators.required],
-      vintage: [wine.vintage, Validators.required],
+      wineName: [
+        wine.wineName,
+        [Validators.required, Validators.maxLength(254)],
+      ],
+      winery: [wine.winery, [Validators.required, Validators.maxLength(254)]],
+      vintage: [
+        wine.vintage,
+        [Validators.required, Validators.pattern('^[0-9]{4}$')],
+      ],
       wineStyle: [wine.wineStyle, Validators.required],
       varietal: [
         wine.varietal,
-        [Validators.required, Validators.pattern(/^[a-zA-Z\s,]+$/)],
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z\s,]+$/),
+          Validators.maxLength(254),
+        ],
       ],
       country: [wine.country, Validators.required],
       provinceState: [wine.provinceState],
-      region: [wine.region],
-      subRegion: [wine.subRegion],
+      region: [wine.region, Validators.maxLength(254)],
+      subRegion: [wine.subRegion, Validators.maxLength(254)],
       price: [wine.price],
       body: [wine.body],
       sugar: [wine.sugar],
       alcoholContent: [wine.alcoholContent],
       acidity: [wine.acidity],
       tannins: [wine.tannins],
-      tastingNote1: [wine.tastingNote1],
-      tastingNote2: [wine.tastingNote2],
-      tastingNote3: [wine.tastingNote3],
-      tastingNote4: [wine.tastingNote4],
-      tastingNote5: [wine.tastingNote5],
-      servingTemp: [wine.servingTemp],
-      foodPairings: [wine.foodPairings],
+      tastingNotes: [
+        wine.tastingNotes,
+        [Validators.pattern(/^[a-zA-Z\s,]+$/), Validators.maxLength(254)],
+      ],
+      characteristics: [this._adminService.stringToArray(wine.characteristics)],
+      servingTemp: [
+        wine.servingTemp,
+        [Validators.pattern(/^\d{1,2}-\d{1,2}$/)],
+      ],
+      foodPairings: [
+        wine.foodPairings,
+        [Validators.pattern(/^[a-zA-Z\s,]+$/), Validators.maxLength(254)],
+      ],
     });
 
     this.winesArray.push(wineGroup);
@@ -219,6 +238,15 @@ export class AdminComponent {
 
     if (this.wineForm.valid) {
       const wineValues = this.winesArray?.value;
+      console.log('[ADMIN] Wine values before:', wineValues);
+
+      wineValues.forEach((wine: Wine) => {
+        console.log('[ADMIN] Wine Characteristics:', wine.characteristics);
+        wine.characteristics = this._adminService.arrayToString(
+          wine.characteristics
+        );
+      });
+      console.log('[ADMIN] Wine values after:', wineValues);
       const changes = {
         newWines: [] as Wine[],
         updatedWines: [] as Wine[],

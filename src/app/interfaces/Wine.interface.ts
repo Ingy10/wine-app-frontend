@@ -17,14 +17,9 @@ export interface Wine {
     alcoholContent: number | null;
     acidity: string;
     tannins: string;
-    
-    // Tasting notes
-    tastingNote1: string;
-    tastingNote2?: string;
-    tastingNote3?: string;
-    tastingNote4?: string;
-    tastingNote5?: string;
+    tastingNotes: string;
+    characteristics: any;
     
     servingTemp: string;
-    foodPairings: string; // Comma-separated list of food pairings
+    foodPairings: string;
   }
