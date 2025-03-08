@@ -127,12 +127,10 @@ export class AdminService {
       return '';
     }
 
-    // If it's already a string, return it
     if (typeof characteristicsArray === 'string') {
       return characteristicsArray;
     }
 
-    // If it's an array, join it into a string
     if (Array.isArray(characteristicsArray)) {
       return characteristicsArray.join(', ');
     }
