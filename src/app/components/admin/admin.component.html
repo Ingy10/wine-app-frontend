@@ -53,8 +53,12 @@
                   <label
                     for="wineName_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Wine Name</label
-                  >
+                    >Wine Name<i
+                      class="pi pi-info-circle ml-1 text-primary-400 cursor-pointer"
+                      pTooltip="Enter the full name of the wine as it appears on the label"
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <input
                     type="text"
                     pInputText
@@ -163,8 +167,13 @@
                   <label
                     for="varietal_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Varietal(s)</label
-                  >
+                    >Varietal(s)
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Enter the varietal(s) as a comma separated list. If a blend, add blend followed by varietals with % ratio (eg: 'Bordeaux, Cabernet Sauvignon 50%, Merlot 30%, Pertit Verdot 15%, Carmenere 5%') This ensure the wine is searchable by name of blend or varietal used and provides useful information on composition"
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <textarea
                     pTextarea
                     placeholder="eg. Merlot, Cabernet Sauvignon..."
@@ -233,8 +242,13 @@
                   <label
                     for="region_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Region</label
-                  >
+                    >Region
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Enter region where grapes are grown."
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <input
                     type="text"
                     pInputText
@@ -254,8 +268,13 @@
                   <label
                     for="subRegion_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Sub Region</label
-                  >
+                    >Sub Region
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Enter sub region where grapes are grown."
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <input
                     type="text"
                     pInputText
@@ -376,8 +395,13 @@
                   <label
                     for="tastingNotes_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Tasting Note(s)</label
-                  >
+                    >Tasting Note(s)
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Enter tasting notes as comma separated list."
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <textarea
                     pTextarea
                     placeholder="eg. Cherry, Vanilla, Oak..."
@@ -409,18 +433,25 @@
                   >
                   }
                 </div>
-                <div class="flex flex-column flex-1" style="min-width: 150px">
+                <div class="flex flex-column flex-1" style="min-width: 180px">
                   <label
                     for="characteristics_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Characteristics</label
-                  >
+                    >Characteristics
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Begin typing to see selectable characteristic options. Selections are limited to pre-defined options shown in drop down menu."
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <p-autocomplete
                     formControlName="characteristics"
                     inputId="characteristics_{{ $index }}"
                     [multiple]="true"
                     fluid
                     [suggestions]="_adminService.filteredCharacteristics"
+                    [dropdown]="true"
+                    [forceSelection]="true"
                     (completeMethod)="_adminService.search($event)"
                     placeholder="eg. Fruity, Smooth..."
                   />
@@ -434,8 +465,13 @@
                   <label
                     for="foodPairings_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Food Pairing(s)</label
-                  >
+                    >Food Pairing(s)
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Enter food pairings as a comma separated list. These can be generic food pairings or specific to your menu."
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <textarea
                     pTextarea
                     placeholder="eg. Steak, Hard Cheeses..."
@@ -474,8 +510,13 @@
                   <label
                     for="servingTemp_{{ $index }}"
                     class="text-primary-600 text-sm pb-1"
-                    >Serving Temperature</label
-                  >
+                    >Serving Temperature
+                    <i
+                      class="pi pi-info-circle text-primary-400 cursor-pointer"
+                      pTooltip="Enter serving temp as a single temperature or a range (eg. '15-18')."
+                      tooltipPosition="top"
+                    ></i>
+                  </label>
                   <p-inputGroup>
                     <input
                       formControlName="servingTemp"

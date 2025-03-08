@@ -26,6 +26,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-admin',
@@ -46,6 +47,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     AutoCompleteModule,
     InputGroupModule,
     InputGroupAddonModule,
+    TooltipModule
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
