@@ -10,7 +10,10 @@
     Wine List
   </h1>
   <!-- <p-divider></p-divider> -->
-  <div class="w-full flex justify-content-end align-items-center px-2 pb-2" [style]="{'margin-top': '-.5rem'}">
+  <div
+    class="w-full flex justify-content-end align-items-center px-2 pb-2"
+    [style]="{ 'margin-top': '-.5rem' }"
+  >
     <p-select
       id="sortBy"
       [options]="_staticService.sortOptions"
@@ -29,13 +32,16 @@
         <ng-container [formGroupName]="$index">
           <div class="flex flex-column">
             <p-accordion-header
-              class="flex justify-content-between py-0"
+              class="flex justify-content-between py-0 p-button-raised rounded-top-edges"
               [style]="{
                 border:
                   !isValid && _adminService.isWineFormGroupInvalid(wineControl)
                     ? '1px solid red'
                     : 'none',
-                background: _adminService.wineStyleColorSelect(winesArray.at($index).get('wineStyle')?.value),
+                background: _adminService.wineStyleHeaderColorSelect(
+                  winesArray.at($index).get('wineStyle')?.value
+                ),
+                'border-radius': '7px 7px 5px 5px',
               }"
             >
               <div class="flex">
@@ -61,485 +67,494 @@
               </div>
             </p-accordion-header>
             <p-accordion-content>
-              <div class="flex flex-wrap gap-3">
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="wineName_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Wine Name<i
-                      class="pi pi-info-circle ml-1 text-primary-400 cursor-pointer"
-                      pTooltip="Enter the full name of the wine as it appears on the label"
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <input
-                    type="text"
-                    pInputText
-                    id="wineName_{{ $index }}"
-                    formControlName="wineName"
-                    [class.ng-invalid]="
-                      winesArray.at($index).get('wineName')?.invalid &&
-                      winesArray.at($index).get('wineName')?.touched
-                    "
-                    [class.ng-dirty]="
-                      winesArray.at($index).get('wineName')?.invalid &&
-                      winesArray.at($index).get('wineName')?.touched
-                    "
-                  />
-                  @if (winesArray.at($index).get('wineName')?.invalid &&
-                  winesArray.at($index).get('wineName')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="winery_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Winery</label
-                  >
-                  <input
-                    type="text"
-                    pInputText
-                    id="winery_{{ $index }}"
-                    formControlName="winery"
-                    [class.ng-invalid]="
-                      winesArray.at($index).get('winery')?.invalid &&
-                      winesArray.at($index).get('winery')?.touched
-                    "
-                    [class.ng-dirty]="
-                      winesArray.at($index).get('winery')?.invalid &&
-                      winesArray.at($index).get('winery')?.touched
-                    "
-                  />
-                  @if (winesArray.at($index).get('winery')?.invalid &&
-                  winesArray.at($index).get('winery')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div
-                  class="flex flex-column flex-1"
-                  [style]="{ 'max-width': '150px', 'min-width': '100px' }"
-                >
-                  <label
-                    for="vintage_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Vintage</label
-                  >
-                  <input
-                    type="number"
-                    pInputText
-                    id="vintage_{{ $index }}"
-                    formControlName="vintage"
-                    [class.ng-invalid]="
-                      winesArray.at($index).get('vintage')?.invalid &&
-                      winesArray.at($index).get('vintage')?.touched
-                    "
-                    [class.ng-dirty]="
-                      winesArray.at($index).get('vintage')?.invalid &&
-                      winesArray.at($index).get('vintage')?.touched
-                    "
-                  />
-                  @if (winesArray.at($index).get('vintage')?.invalid &&
-                  winesArray.at($index).get('vintage')?.touched) {
-                  <small class="pt-1 text-center" [style]="{ color: 'red' }"
-                    >*Must be 4 digits (eg. 1985)</small
-                  >
-                  }
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="wineStyle_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Wine Style</label
-                  >
-                  <p-select
-                    id="wineStyle_{{ $index }}"
-                    [options]="_staticService.wineStyles"
-                    placeholder="Select Style"
-                    formControlName="wineStyle"
-                    appendTo="body"
-                    [class.ng-invalid]="
-                      winesArray.at($index).get('wineStyle')?.invalid &&
-                      winesArray.at($index).get('wineStyle')?.touched
-                    "
-                    [class.ng-dirty]="
-                      winesArray.at($index).get('wineStyle')?.invalid &&
-                      winesArray.at($index).get('wineStyle')?.touched
-                    "
-                  />
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="varietal_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Varietal(s)
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Enter the varietal(s) as a comma separated list. If a blend, add blend followed by varietals with % ratio (eg: 'Bordeaux, Cabernet Sauvignon 50%, Merlot 30%, Pertit Verdot 15%, Carmenere 5%') This ensure the wine is searchable by name of blend or varietal used and provides useful information on composition"
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <textarea
-                    pTextarea
-                    placeholder="eg. Merlot, Cabernet Sauvignon..."
-                    rows="1"
-                    id="varietal_{{ $index }}"
-                    formControlName="varietal"
-                    autoResize="true"
-                    [class.invalid-border-only]="
-                      winesArray.at($index).get('varietal')?.invalid &&
-                      winesArray.at($index).get('varietal')?.touched
-                    "
-                    [class.invalid-border-only]="
-                      winesArray.at($index).get('varietal')?.invalid &&
-                      winesArray.at($index).get('varietal')?.touched
-                    "
-                  ></textarea>
-                  @if (winesArray.at($index).get('varietal')?.invalid &&
-                  winesArray.at($index).get('varietal')?.touched) {
-                  <small class="pt-1 text-center" [style]="{ color: 'red' }"
-                    >*Enter Varietals as a comma separated List. Only letters
-                    and commas accepted as input.</small
-                  >
-                  <small class="pt-1 text-center" [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="country_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Country</label
-                  >
-                  <p-select
-                    id="country_{{ $index }}"
-                    [options]="_staticService.countries"
-                    placeholder="Select Country"
-                    formControlName="country"
-                    appendTo="body"
-                    (onChange)="onCountryChange($index)"
-                    [class.ng-invalid]="
-                      winesArray.at($index).get('country')?.invalid &&
-                      winesArray.at($index).get('country')?.touched
-                    "
-                    [class.ng-dirty]="
-                      winesArray.at($index).get('country')?.invalid &&
-                      winesArray.at($index).get('country')?.touched
-                    "
-                  />
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="provinceState_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Province/State</label
-                  >
-                  <p-select
-                    id="provinceState_{{ $index }}"
-                    [options]="wineStatesMap.get($index) || []"
-                    placeholder="Select Province/State"
-                    formControlName="provinceState"
-                    appendTo="body"
-                  />
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="region_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Region
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Enter region where grapes are grown."
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <input
-                    type="text"
-                    pInputText
-                    id="region_{{ $index }}"
-                    formControlName="region"
-                  />
-                  @if (winesArray.at($index).get('region')?.invalid &&
-                  winesArray.at($index).get('region')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="subRegion_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Sub Region
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Enter sub region where grapes are grown."
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <input
-                    type="text"
-                    pInputText
-                    id="subRegion_{{ $index }}"
-                    formControlName="subRegion"
-                  />
-                  @if (winesArray.at($index).get('subRegion')?.invalid &&
-                  winesArray.at($index).get('subRegion')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div
-                  class="flex flex-column flex-1"
-                  [style]="{ 'max-width': '150px', 'min-width': '100px' }"
-                >
-                  <label
-                    for="price_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Price</label
-                  >
-                  <p-inputnumber
-                    formControlName="price"
-                    id="price_{{ $index }}"
-                    mode="currency"
-                    inputId="currency-us"
-                    currency="USD"
-                    locale="en-US"
-                    fluid
-                  />
-                </div>
-              </div>
-
-              <!-- Wine Characteristics -->
-              <p-divider align="left" type="solid"
-                >Wine Characteristics</p-divider
+              <div
+                [style]="{
+                  background: _adminService.wineStyleBodyColorSelect(
+                    winesArray.at($index).get('wineStyle')?.value
+                  ),
+                  padding: '1rem'
+                }"
               >
-              <div class="flex flex-wrap gap-3">
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="body_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Body</label
-                  >
-                  <p-select
-                    id="body_{{ $index }}"
-                    [options]="this._staticService.body"
-                    placeholder="Select Body"
-                    formControlName="body"
-                    appendTo="body"
-                  />
-                </div>
-                <div class="flex flex-column flex-1" style="min-width: 100px">
-                  <label
-                    for="sugar_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Sugar Content</label
-                  >
-                  <p-select
-                    id="sugar_{{ $index }}"
-                    [options]="this._staticService.sugar"
-                    placeholder="Select Sugar Content"
-                    formControlName="sugar"
-                    appendTo="body"
-                  />
-                </div>
-                <div
-                  class="flex flex-column flex-1"
-                  [style]="{ 'max-width': '150px', 'min-width': '100px' }"
-                >
-                  <label
-                    for="alcoholContent_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Alcohol Content</label
-                  >
-                  <p-inputnumber
-                    formControlName="alcoholContent"
-                    id="alcoholContent_{{ $index }}"
-                    mode="decimal"
-                    locale="en-US"
-                    [minFractionDigits]="2"
-                    suffix="%"
-                    fluid
-                  />
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="acidity_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Acidity</label
-                  >
-                  <p-select
-                    id="acidity_{{ $index }}"
-                    [options]="this._staticService.acidity"
-                    placeholder="Select Acidity"
-                    formControlName="acidity"
-                    appendTo="body"
-                  />
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="tannins_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Tanins</label
-                  >
-                  <p-select
-                    id="tannins_{{ $index }}"
-                    [options]="this._staticService.tanins"
-                    placeholder="Select Tanins"
-                    formControlName="tannins"
-                    appendTo="body"
-                  />
-                </div>
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="tastingNotes_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Tasting Note(s)
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Enter tasting notes as comma separated list."
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <textarea
-                    pTextarea
-                    placeholder="eg. Cherry, Vanilla, Oak..."
-                    rows="1"
-                    id="tastingNotes_{{ $index }}"
-                    formControlName="tastingNotes"
-                    autoResize="true"
-                    [class.invalid-border-only]="
-                      winesArray.at($index).get('tastingNotes')?.invalid &&
-                      winesArray.at($index).get('tastingNotes')?.touched
-                    "
-                    [class.invalid-border-only]="
-                      winesArray.at($index).get('tastingNotes')?.invalid &&
-                      winesArray.at($index).get('tastingNotes')?.touched
-                    "
-                  ></textarea>
-                  @if (winesArray.at($index).get('tastingNotes')?.invalid &&
-                  winesArray.at($index).get('tastingNotes')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Enter Tasting Notes as a comma separated List. Only
-                    letters and commas accepted as input.</small
-                  >
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div class="flex flex-column flex-1" style="min-width: 180px">
-                  <label
-                    for="characteristics_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Characteristics
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Begin typing to see selectable characteristic options. Selections are limited to pre-defined options shown in drop down menu."
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <p-autocomplete
-                    formControlName="characteristics"
-                    inputId="characteristics_{{ $index }}"
-                    [multiple]="true"
-                    fluid
-                    [suggestions]="_adminService.filteredCharacteristics"
-                    [dropdown]="true"
-                    [forceSelection]="true"
-                    (completeMethod)="_adminService.search($event)"
-                    placeholder="eg. Fruity, Smooth..."
-                  />
-                </div>
-              </div>
-
-              <!-- Serving Notes -->
-              <p-divider align="left" type="solid">Serving Notes</p-divider>
-              <div class="flex flex-wrap gap-3">
-                <div class="flex flex-column flex-1">
-                  <label
-                    for="foodPairings_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Food Pairing(s)
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Enter food pairings as a comma separated list. These can be generic food pairings or specific to your menu."
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <textarea
-                    pTextarea
-                    placeholder="eg. Steak, Hard Cheeses..."
-                    rows="1"
-                    id="foodPairings_{{ $index }}"
-                    formControlName="foodPairings"
-                    autoResize="true"
-                    [class.invalid-border-only]="
-                      winesArray.at($index).get('foodPairings')?.invalid &&
-                      winesArray.at($index).get('foodPairings')?.touched
-                    "
-                    [class.invalid-border-only]="
-                      winesArray.at($index).get('foodPairings')?.invalid &&
-                      winesArray.at($index).get('foodPairings')?.touched
-                    "
-                  ></textarea>
-                  @if (winesArray.at($index).get('foodPairings')?.invalid &&
-                  winesArray.at($index).get('foodPairings')?.touched) {
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Enter Food Pairings as a comma separated List. Only
-                    letters and commas accepted as input.</small
-                  >
-                  <small
-                    class="text-color-red pt-1 text-center"
-                    [style]="{ color: 'red' }"
-                    >*Max length 255 characters.</small
-                  >
-                  }
-                </div>
-                <div
-                  class="flex flex-column flex-1"
-                  [style]="{ 'max-width': '150px', 'min-width': '120px' }"
-                >
-                  <label
-                    for="servingTemp_{{ $index }}"
-                    class="text-primary-600 text-sm pb-1"
-                    >Serving Temperature
-                    <i
-                      class="pi pi-info-circle text-primary-400 cursor-pointer"
-                      pTooltip="Enter serving temp as a single temperature or a range (eg. '15-18')."
-                      tooltipPosition="top"
-                    ></i>
-                  </label>
-                  <p-inputGroup>
+                <div class="flex flex-wrap gap-3">
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="wineName_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Wine Name<i
+                        class="pi pi-info-circle ml-1 text-primary-400 cursor-pointer"
+                        pTooltip="Enter the full name of the wine as it appears on the label"
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
                     <input
-                      formControlName="servingTemp"
+                      type="text"
                       pInputText
-                      id="servingTemp_{{ $index }}"
+                      id="wineName_{{ $index }}"
+                      formControlName="wineName"
+                      [class.ng-invalid]="
+                        winesArray.at($index).get('wineName')?.invalid &&
+                        winesArray.at($index).get('wineName')?.touched
+                      "
+                      [class.ng-dirty]="
+                        winesArray.at($index).get('wineName')?.invalid &&
+                        winesArray.at($index).get('wineName')?.touched
+                      "
                     />
-                    <p-inputGroupAddon class="p-inputtext-suffix"
-                      >°C</p-inputGroupAddon
+                    @if (winesArray.at($index).get('wineName')?.invalid &&
+                    winesArray.at($index).get('wineName')?.touched) {
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
                     >
-                  </p-inputGroup>
+                    }
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="winery_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Winery</label
+                    >
+                    <input
+                      type="text"
+                      pInputText
+                      id="winery_{{ $index }}"
+                      formControlName="winery"
+                      [class.ng-invalid]="
+                        winesArray.at($index).get('winery')?.invalid &&
+                        winesArray.at($index).get('winery')?.touched
+                      "
+                      [class.ng-dirty]="
+                        winesArray.at($index).get('winery')?.invalid &&
+                        winesArray.at($index).get('winery')?.touched
+                      "
+                    />
+                    @if (winesArray.at($index).get('winery')?.invalid &&
+                    winesArray.at($index).get('winery')?.touched) {
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
+                    >
+                    }
+                  </div>
+                  <div
+                    class="flex flex-column flex-1"
+                    [style]="{ 'max-width': '150px', 'min-width': '100px' }"
+                  >
+                    <label
+                      for="vintage_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Vintage</label
+                    >
+                    <input
+                      type="number"
+                      pInputText
+                      id="vintage_{{ $index }}"
+                      formControlName="vintage"
+                      [class.ng-invalid]="
+                        winesArray.at($index).get('vintage')?.invalid &&
+                        winesArray.at($index).get('vintage')?.touched
+                      "
+                      [class.ng-dirty]="
+                        winesArray.at($index).get('vintage')?.invalid &&
+                        winesArray.at($index).get('vintage')?.touched
+                      "
+                    />
+                    @if (winesArray.at($index).get('vintage')?.invalid &&
+                    winesArray.at($index).get('vintage')?.touched) {
+                    <small class="pt-1 text-center" [style]="{ color: 'red' }"
+                      >*Must be 4 digits (eg. 1985)</small
+                    >
+                    }
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="wineStyle_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Wine Style</label
+                    >
+                    <p-select
+                      id="wineStyle_{{ $index }}"
+                      [options]="_staticService.wineStyles"
+                      placeholder="Select Style"
+                      formControlName="wineStyle"
+                      appendTo="body"
+                      [class.ng-invalid]="
+                        winesArray.at($index).get('wineStyle')?.invalid &&
+                        winesArray.at($index).get('wineStyle')?.touched
+                      "
+                      [class.ng-dirty]="
+                        winesArray.at($index).get('wineStyle')?.invalid &&
+                        winesArray.at($index).get('wineStyle')?.touched
+                      "
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="varietal_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Varietal(s)
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Enter the varietal(s) as a comma separated list. If a blend, add blend followed by varietals with % ratio (eg: 'Bordeaux, Cabernet Sauvignon 50%, Merlot 30%, Pertit Verdot 15%, Carmenere 5%') This ensure the wine is searchable by name of blend or varietal used and provides useful information on composition"
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <textarea
+                      pTextarea
+                      placeholder="eg. Merlot, Cabernet Sauvignon..."
+                      rows="1"
+                      id="varietal_{{ $index }}"
+                      formControlName="varietal"
+                      autoResize="true"
+                      [class.invalid-border-only]="
+                        winesArray.at($index).get('varietal')?.invalid &&
+                        winesArray.at($index).get('varietal')?.touched
+                      "
+                      [class.invalid-border-only]="
+                        winesArray.at($index).get('varietal')?.invalid &&
+                        winesArray.at($index).get('varietal')?.touched
+                      "
+                    ></textarea>
+                    @if (winesArray.at($index).get('varietal')?.invalid &&
+                    winesArray.at($index).get('varietal')?.touched) {
+                    <small class="pt-1 text-center" [style]="{ color: 'red' }"
+                      >*Enter Varietals as a comma separated List. Only letters
+                      and commas accepted as input.</small
+                    >
+                    <small class="pt-1 text-center" [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
+                    >
+                    }
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="country_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Country</label
+                    >
+                    <p-select
+                      id="country_{{ $index }}"
+                      [options]="_staticService.countries"
+                      placeholder="Select Country"
+                      formControlName="country"
+                      appendTo="body"
+                      (onChange)="onCountryChange($index)"
+                      [class.ng-invalid]="
+                        winesArray.at($index).get('country')?.invalid &&
+                        winesArray.at($index).get('country')?.touched
+                      "
+                      [class.ng-dirty]="
+                        winesArray.at($index).get('country')?.invalid &&
+                        winesArray.at($index).get('country')?.touched
+                      "
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="provinceState_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Province/State</label
+                    >
+                    <p-select
+                      id="provinceState_{{ $index }}"
+                      [options]="wineStatesMap.get($index) || []"
+                      placeholder="Select Province/State"
+                      formControlName="provinceState"
+                      appendTo="body"
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="region_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Region
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Enter region where grapes are grown."
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <input
+                      type="text"
+                      pInputText
+                      id="region_{{ $index }}"
+                      formControlName="region"
+                    />
+                    @if (winesArray.at($index).get('region')?.invalid &&
+                    winesArray.at($index).get('region')?.touched) {
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
+                    >
+                    }
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="subRegion_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Sub Region
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Enter sub region where grapes are grown."
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <input
+                      type="text"
+                      pInputText
+                      id="subRegion_{{ $index }}"
+                      formControlName="subRegion"
+                    />
+                    @if (winesArray.at($index).get('subRegion')?.invalid &&
+                    winesArray.at($index).get('subRegion')?.touched) {
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
+                    >
+                    }
+                  </div>
+                  <div
+                    class="flex flex-column flex-1"
+                    [style]="{ 'max-width': '150px', 'min-width': '100px' }"
+                  >
+                    <label
+                      for="price_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Price</label
+                    >
+                    <p-inputnumber
+                      formControlName="price"
+                      id="price_{{ $index }}"
+                      mode="currency"
+                      inputId="currency-us"
+                      currency="USD"
+                      locale="en-US"
+                      fluid
+                    />
+                  </div>
+                </div>
+
+                <!-- Wine Characteristics -->
+                <p-divider align="left" type="solid"
+                  >Wine Characteristics</p-divider
+                >
+                <div class="flex flex-wrap gap-3">
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="body_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Body</label
+                    >
+                    <p-select
+                      id="body_{{ $index }}"
+                      [options]="this._staticService.body"
+                      placeholder="Select Body"
+                      formControlName="body"
+                      appendTo="body"
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1" style="min-width: 100px">
+                    <label
+                      for="sugar_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Sugar Content</label
+                    >
+                    <p-select
+                      id="sugar_{{ $index }}"
+                      [options]="this._staticService.sugar"
+                      placeholder="Select Sugar Content"
+                      formControlName="sugar"
+                      appendTo="body"
+                    />
+                  </div>
+                  <div
+                    class="flex flex-column flex-1"
+                    [style]="{ 'max-width': '150px', 'min-width': '100px' }"
+                  >
+                    <label
+                      for="alcoholContent_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Alcohol Content</label
+                    >
+                    <p-inputnumber
+                      formControlName="alcoholContent"
+                      id="alcoholContent_{{ $index }}"
+                      mode="decimal"
+                      locale="en-US"
+                      [minFractionDigits]="2"
+                      suffix="%"
+                      fluid
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="acidity_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Acidity</label
+                    >
+                    <p-select
+                      id="acidity_{{ $index }}"
+                      [options]="this._staticService.acidity"
+                      placeholder="Select Acidity"
+                      formControlName="acidity"
+                      appendTo="body"
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="tannins_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Tanins</label
+                    >
+                    <p-select
+                      id="tannins_{{ $index }}"
+                      [options]="this._staticService.tanins"
+                      placeholder="Select Tanins"
+                      formControlName="tannins"
+                      appendTo="body"
+                    />
+                  </div>
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="tastingNotes_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Tasting Note(s)
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Enter tasting notes as comma separated list."
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <textarea
+                      pTextarea
+                      placeholder="eg. Cherry, Vanilla, Oak..."
+                      rows="1"
+                      id="tastingNotes_{{ $index }}"
+                      formControlName="tastingNotes"
+                      autoResize="true"
+                      [class.invalid-border-only]="
+                        winesArray.at($index).get('tastingNotes')?.invalid &&
+                        winesArray.at($index).get('tastingNotes')?.touched
+                      "
+                      [class.invalid-border-only]="
+                        winesArray.at($index).get('tastingNotes')?.invalid &&
+                        winesArray.at($index).get('tastingNotes')?.touched
+                      "
+                    ></textarea>
+                    @if (winesArray.at($index).get('tastingNotes')?.invalid &&
+                    winesArray.at($index).get('tastingNotes')?.touched) {
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Enter Tasting Notes as a comma separated List. Only
+                      letters and commas accepted as input.</small
+                    >
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
+                    >
+                    }
+                  </div>
+                  <div class="flex flex-column flex-1" style="min-width: 180px">
+                    <label
+                      for="characteristics_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Characteristics
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Begin typing to see selectable characteristic options. Selections are limited to pre-defined options shown in drop down menu."
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <p-autocomplete
+                      formControlName="characteristics"
+                      inputId="characteristics_{{ $index }}"
+                      [multiple]="true"
+                      fluid
+                      [suggestions]="_adminService.filteredCharacteristics"
+                      [dropdown]="true"
+                      [forceSelection]="true"
+                      (completeMethod)="_adminService.search($event)"
+                      placeholder="eg. Fruity, Smooth..."
+                    />
+                  </div>
+                </div>
+
+                <!-- Serving Notes -->
+                <p-divider align="left" type="solid">Serving Notes</p-divider>
+                <div class="flex flex-wrap gap-3">
+                  <div class="flex flex-column flex-1">
+                    <label
+                      for="foodPairings_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Food Pairing(s)
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Enter food pairings as a comma separated list. These can be generic food pairings or specific to your menu."
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <textarea
+                      pTextarea
+                      placeholder="eg. Steak, Hard Cheeses..."
+                      rows="1"
+                      id="foodPairings_{{ $index }}"
+                      formControlName="foodPairings"
+                      autoResize="true"
+                      [class.invalid-border-only]="
+                        winesArray.at($index).get('foodPairings')?.invalid &&
+                        winesArray.at($index).get('foodPairings')?.touched
+                      "
+                      [class.invalid-border-only]="
+                        winesArray.at($index).get('foodPairings')?.invalid &&
+                        winesArray.at($index).get('foodPairings')?.touched
+                      "
+                    ></textarea>
+                    @if (winesArray.at($index).get('foodPairings')?.invalid &&
+                    winesArray.at($index).get('foodPairings')?.touched) {
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Enter Food Pairings as a comma separated List. Only
+                      letters and commas accepted as input.</small
+                    >
+                    <small
+                      class="text-color-red pt-1 text-center"
+                      [style]="{ color: 'red' }"
+                      >*Max length 255 characters.</small
+                    >
+                    }
+                  </div>
+                  <div
+                    class="flex flex-column flex-1"
+                    [style]="{ 'max-width': '150px', 'min-width': '120px' }"
+                  >
+                    <label
+                      for="servingTemp_{{ $index }}"
+                      class="text-primary-600 text-sm pb-1"
+                      >Serving Temperature
+                      <i
+                        class="pi pi-info-circle text-primary-400 cursor-pointer"
+                        pTooltip="Enter serving temp as a single temperature or a range (eg. '15-18')."
+                        tooltipPosition="top"
+                      ></i>
+                    </label>
+                    <p-inputGroup>
+                      <input
+                        formControlName="servingTemp"
+                        pInputText
+                        id="servingTemp_{{ $index }}"
+                      />
+                      <p-inputGroupAddon class="p-inputtext-suffix"
+                        >°C</p-inputGroupAddon
+                      >
+                    </p-inputGroup>
+                  </div>
                 </div>
               </div>
             </p-accordion-content>

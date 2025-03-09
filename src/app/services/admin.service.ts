@@ -137,8 +137,8 @@ export class AdminService {
     return '';
   }
 
-  // Color options given a wine style selection
-  wineStyleColorSelect(color: string): string {
+  // Header color options given a wine style selection
+  wineStyleHeaderColorSelect(color: string): string {
     switch (color) {
       case 'White':
         return '#eeeee2';
@@ -148,6 +148,22 @@ export class AdminService {
         return '#f5e6ea';
       case 'Orange':
         return '#eee6db';
+      default:
+        return '';
+    }
+  }
+
+  // Body color options given a wine style selection
+  wineStyleBodyColorSelect(color: string): string {
+    switch (color) {
+      case 'White':
+        return '#fefefd';
+      case 'Red':
+        return '#fbf8f8';
+      case 'Rose':
+        return '#fdfafb';
+      case 'Orange':
+        return '#fdfbf9';
       default:
         return '';
     }
