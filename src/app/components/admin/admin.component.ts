@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { InputTextModule } from 'primeng/inputtext';
 import {
@@ -47,7 +47,7 @@ import { TooltipModule } from 'primeng/tooltip';
     AutoCompleteModule,
     InputGroupModule,
     InputGroupAddonModule,
-    TooltipModule
+    TooltipModule,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
@@ -59,8 +59,9 @@ export class AdminComponent {
   wineStatesMap: Map<number, Array<String>> = new Map();
   private destroy$ = new Subject<void>();
   originalWines: { [id: number]: Wine } = {};
-  isValid = true;
-  isLoading = false;
+  isValid: boolean = true;
+  isLoading: boolean = false;
+  selectedSort: string = '';
 
   constructor(
     public _staticService: StaticService,
@@ -104,6 +105,7 @@ export class AdminComponent {
         this.addWineFormGroup(wine);
       });
     }
+    
     console.log('[ADMIN] Original Wines Object:', this.originalWines);
     setTimeout(() => {
       this.isLoading = false;
@@ -209,6 +211,62 @@ export class AdminComponent {
     return wineGroup;
   }
 
+  sortWines() {
+    console.log('[ADMIN] Selected sort:', this.selectedSort);
+    console.log('[ADMIN] Wines Array:', this.winesArray);
+
+    if (!this.selectedSort || this.winesArray.length === 0) {
+      return;
+    }
+
+    console.log(
+      '[ADMIN] Wines array raw value:',
+      this.winesArray.getRawValue()
+    );
+    const currentValues = this.winesArray.getRawValue();
+
+    const [field, direction] = this.selectedSort.split('_');
+
+    // comparison function that iterates through array, doing comparisons of (a, b) returning (-1, 0, 1) to determine order
+    currentValues.sort((a, b) => {
+      let comparison = 0;
+
+      if (typeof a[field] === 'string') {
+        comparison = a[field].localeCompare(b[field]);
+      } else if (typeof a[field] === 'number') {
+        comparison = a[field] - b[field];
+      } else { // If fields are null or undefined they should go last in the list
+        if (a[field] === null || a[field] === undefined) return 1;
+
+        if (b[field] === null || b[field] === undefined) return -1;
+
+        // For any other data types, convert to string and then compare
+        // This handles objects, booleans, etc.
+        comparison = String(a[field]).localeCompare(String(b[field]));
+      }
+
+      // Handles ascending vs descending sort direction
+      if (direction === 'desc') {
+        // For descending order, invert the comparison result
+        return -comparison;
+      } else {
+        return comparison;
+      }
+    });
+
+    while (this.winesArray.length !== 0) {
+      this.winesArray.removeAt(0);
+    }
+
+    this.wineForm = this.fb.group({
+      wines: this.fb.array([]),
+    });
+
+    currentValues.forEach((wine) => {
+      this.addWineFormGroup(wine);
+    });
+  }
+
   // Assigns province options for a given country, given an index
   updateStatesForWine(index: number) {
     const wineGroup = this.winesArray.at(index) as FormGroup;
@@ -308,6 +366,7 @@ export class AdminComponent {
         console.log('[ADMIN] No changes to submit');
         this.isValid = true;
         this.isLoading = false;
+        this.selectedSort = '';
       } else {
         console.log('[ADMIN] Re initializing form');
         this.wineForm = this.fb.group({
@@ -317,11 +376,13 @@ export class AdminComponent {
           this._wineDataService.loadWines();
         }, 1000);
         this.isValid = true;
+        this.selectedSort = '';
       }
     } else {
       console.error('[ADMIN] Form has validation errors');
       this.isValid = false;
       this.isLoading = false;
+      this.selectedSort = '';
     }
   }
 

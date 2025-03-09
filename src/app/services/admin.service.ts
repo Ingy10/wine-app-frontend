@@ -94,7 +94,6 @@ export class AdminService {
 
   // Filter the characteristics based on what the user types
   search(event: any) {
-    console.log('[ADMIN] event:', event);
     const query = event.query.toLowerCase();
     this.filteredCharacteristics = this._staticService.characteristics.filter(
       (characteristic) => characteristic.toLowerCase().includes(query)
@@ -138,6 +137,7 @@ export class AdminService {
     return '';
   }
 
+  // Color options given a wine style selection
   wineStyleColorSelect(color: string): string {
     switch (color) {
       case 'White':

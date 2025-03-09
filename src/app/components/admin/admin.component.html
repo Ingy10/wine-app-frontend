@@ -9,7 +9,19 @@
   <h1 class="w-full text-center text-primary-700 font-weight-light text-xxl">
     Wine List
   </h1>
-  <p-divider></p-divider>
+  <!-- <p-divider></p-divider> -->
+  <div class="w-full flex justify-content-end align-items-center px-2 pb-2" [style]="{'margin-top': '-.5rem'}">
+    <p-select
+      id="sortBy"
+      [options]="_staticService.sortOptions"
+      placeholder="Sort Options"
+      [(ngModel)]="selectedSort"
+      (onChange)="sortWines()"
+      [style]="{ width: '170px' }"
+      [ngModelOptions]="{ standalone: true }"
+      class="border-primary-400 border-2"
+    />
+  </div>
   <p-accordion [multiple]="true" class="p-0">
     <ng-container formArrayName="wines">
       @for (wineControl of winesArray.controls; track $index) {

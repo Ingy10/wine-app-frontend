@@ -202,6 +202,17 @@ export class StaticService {
     'Velvety',
     'Zesty',
   ];
+  sortOptions = [
+    { label: 'Wine Style', value: 'wineStyle' },
+    { label: 'Wine Name (A-Z)', value: 'wineName_asc' },
+    { label: 'Wine Name (Z-A)', value: 'wineName_desc' },
+    { label: 'Winery (A-Z)', value: 'winery_asc' },
+    { label: 'Winery (Z-A)', value: 'winery_desc' },
+    { label: 'Price (Low to High)', value: 'price_asc' },
+    { label: 'Price (High to Low)', value: 'price_desc' },
+    { label: 'Country (A-Z)', value: 'country_asc' },
+    { label: 'Country (Z-A)', value: 'country_desc' },
+  ];
   // sampleWines = [
   //   {
   //     id: 4,
