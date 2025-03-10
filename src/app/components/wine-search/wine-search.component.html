@@ -5,25 +5,68 @@
       Search Our Wines!
     </h1>
     <p class="text-center m-0 text-primary-400 px-4">
-      Choose 3 of your favorite wine characteristics and hit search!
+      Choose 3 of your favorite wine characteristics, varietals, regions,
+      vintages or food pairings and hit search!
     </p>
     <p class="text-center m-0 text-primary-400 px-6 text-sm">
       For example: <strong>'Fruity', 'Pinot Noir', 'Canada'</strong> and see all
       our matching wines!
     </p>
   </div>
-  <form class="flex justify-content-center mt-4 gap-3 flex-wrap pb-4">
-    <div>
-      <label></label>
-      <input type="text" pInputText />
+  <form
+    [formGroup]="searchForm"
+    class="flex flex-column align-items-center pb-4"
+  >
+    <div class="flex justify-content-center mt-4 gap-3 flex-wrap pb-4 px-2">
+      <div
+        class="flex-1 flex justify-content-center"
+        [style]="{ 'min-width': '180px' }"
+      >
+        <p-autocomplete
+          formControlName="term1"
+          [dropdown]="true"
+          [suggestions]="searchSuggestions"
+          fluid
+          appendTo="body"
+          (completeMethod)="search($event)"
+        ></p-autocomplete>
+      </div>
+      <div
+        class="flex-1 flex justify-content-center"
+        [style]="{ 'min-width': '180px' }"
+      >
+        <p-autocomplete
+          formControlName="term2"
+          [dropdown]="true"
+          [suggestions]="searchSuggestions"
+          fluid
+          appendTo="body"
+          (completeMethod)="search($event)"
+        ></p-autocomplete>
+      </div>
+      <div
+        class="flex-1 flex justify-content-center"
+        [style]="{ 'min-width': '180px' }"
+      >
+        <p-autocomplete
+          formControlName="term3"
+          [dropdown]="true"
+          [suggestions]="searchSuggestions"
+          fluid
+          appendTo="body"
+          (completeMethod)="search($event)"
+        ></p-autocomplete>
+      </div>
     </div>
-    <div>
-      <label></label>
-      <input type="text" pInputText />
-    </div>
-    <div>
-      <label></label>
-      <input type="text" pInputText />
+    <div class="w-full flex justify-content-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button-raised round"
+        icon="pi pi-search"
+      >
+        SEARCH
+      </button>
     </div>
   </form>
 </main>
