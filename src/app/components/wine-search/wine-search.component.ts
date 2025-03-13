@@ -9,7 +9,10 @@ import { Wine } from '../../interfaces/Wine.interface';
 import { WineDataService } from '../../services/wineData.service';
 import { Subject, takeUntil } from 'rxjs';
 import { WineSearchService } from '../../services/wineSearch.service';
-import { WineDisplayComponent } from "../wine-display/wine-display.component";
+import { WineDisplayComponent } from '../wine-display/wine-display.component';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-wine-search',
@@ -20,8 +23,11 @@ import { WineDisplayComponent } from "../wine-display/wine-display.component";
     AutoCompleteModule,
     ReactiveFormsModule,
     ButtonModule,
-    WineDisplayComponent
-],
+    WineDisplayComponent,
+    InputGroupModule,
+    InputGroupAddonModule,
+    TooltipModule,
+  ],
   templateUrl: './wine-search.component.html',
   styleUrl: './wine-search.component.scss',
 })
@@ -38,9 +44,7 @@ export class WineSearchComponent {
     private _wineSearchService: WineSearchService
   ) {
     this.searchForm = this.fb.group({
-      term1: [''],
-      term2: [''],
-      term3: [''],
+      terms: [[]],
     });
   }
 

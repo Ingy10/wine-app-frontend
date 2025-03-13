@@ -1,62 +1,47 @@
 <app-header></app-header>
-<main class="pt-4">
-  <div>
-    <h1 class="text-primary-700 text-center m-0 font-weight-light">
-      Search Our Wines!
-    </h1>
-    <p class="text-center m-0 text-primary-400 px-4">
-      Choose 3 of your favorite wine characteristics, varietals, regions,
-      vintages or food pairings and hit search!
+<main class="pt-5">
+  <details>
+    <summary class="flex justify-content-center">
+      <h1
+        class="text-primary-700 text-center m-0 font-weight-light pb-0 cursor-pointer"
+        pTooltip="Choose some of your favorite wine characteristics, varietals, wineries, countries, regions,
+        vintages or food pairings and hit search!"
+      >
+        Search Our Wines
+      </h1>
+      <i
+        class="pi pi-info-circle text-primary-700 cursor-pointer ml-1 mt-1"
+        pTooltip="Choose some of your favorite wine characteristics, varietals, wineries, countries, regions,
+  vintages or food pairings and hit search!"
+      ></i>
+    </summary>
+
+    <p class="text-center m-0 text-primary-400 px-4 text-sm">
+      Choose some of your <strong>favorite wine characteristics</strong>,
+      varietals, countries, regions, vintages or food pairings and hit search!
+      Start typing to see the list of selectable terms
+      <strong>eg. 'Fruity', 'Pinot Noir', 'Canada'</strong>...
     </p>
-    <p class="text-center m-0 text-primary-400 px-6 text-sm">
-      For example: <strong>'Fruity', 'Pinot Noir', 'Canada'</strong> and see all
-      our matching wines!
-    </p>
-  </div>
+  </details>
+
   <form
     [formGroup]="searchForm"
     class="flex flex-column align-items-center pb-4"
   >
-    <div class="flex justify-content-center mt-4 gap-3 flex-wrap pb-4 px-2">
-      <div
-        class="flex-1 flex justify-content-center"
-        [style]="{ 'min-width': '180px' }"
-      >
-        <p-autocomplete
-          formControlName="term1"
-          [dropdown]="true"
-          [suggestions]="searchSuggestions"
-          fluid
-          appendTo="body"
-          (completeMethod)="search($event)"
-        ></p-autocomplete>
-      </div>
-      <div
-        class="flex-1 flex justify-content-center"
-        [style]="{ 'min-width': '180px' }"
-      >
-        <p-autocomplete
-          formControlName="term2"
-          [dropdown]="true"
-          [suggestions]="searchSuggestions"
-          fluid
-          appendTo="body"
-          (completeMethod)="search($event)"
-        ></p-autocomplete>
-      </div>
-      <div
-        class="flex-1 flex justify-content-center"
-        [style]="{ 'min-width': '180px' }"
-      >
-        <p-autocomplete
-          formControlName="term3"
-          [dropdown]="true"
-          [suggestions]="searchSuggestions"
-          fluid
-          appendTo="body"
-          (completeMethod)="search($event)"
-        ></p-autocomplete>
-      </div>
+    <div
+      class="flex justify-content-center mt-2 gap-3 flex-wrap pb-3 px-2"
+      [style]="{ width: '80%', 'max-width': '800px' }"
+    >
+      <p-autocomplete
+        formControlName="terms"
+        [suggestions]="searchSuggestions"
+        placeholder="Start typing to search wines..."
+        [multiple]="true"
+        fluid
+        appendTo="body"
+        class="w-full"
+        (completeMethod)="search($event)"
+      ></p-autocomplete>
     </div>
     <div class="w-full flex justify-content-center">
       <button
