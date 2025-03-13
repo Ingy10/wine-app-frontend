@@ -1,0 +1,115 @@
+@for (wine of filteredWines; track $index) {
+<div
+  class="p-button-raised pb-1"
+  [style]="{
+    'background-color': this._adminService.wineStyleBodyColorSelect(
+      wine.wineStyle
+    )
+  }"
+>
+  <div
+    class="flex align-items-start w-full p-button-raised p-2 md:px-6"
+    [style]="{
+      'background-color': this._wineDisplayService.wineStyleHeaderColorSelect(
+        wine.wineStyle
+      )
+    }"
+  >
+    <h2
+      class="m-0 font-weight-light"
+      [style]="{
+        width: '80%',
+        color:
+          wine.wineStyle === 'White'
+            ? 'var(--p-primary-900)'
+            : 'var(--p-primary-50)'
+      }"
+    >
+      {{ wine.wineName }} ({{ wine.vintage }}) - {{ wine.winery }}
+      <img
+        [src]="
+          'https://flagcdn.com/w320/' +
+          this._staticsService.coutryFlagCodes[wine.country] +
+          '.png'
+        "
+        width="25rem"
+        class="mb-1"
+      />
+    </h2>
+    <h3
+      class="m-0 font-weight-light"
+      [style]="{
+        width: '20%',
+        'text-align': 'right',
+        color:
+          wine.wineStyle === 'White'
+            ? 'var(--p-primary-900)'
+            : 'var(--p-primary-50)'
+      }"
+    >
+      ${{ wine.price }}
+    </h3>
+  </div>
+  <div
+    class="flex flex-wrap justify-content-between gap-3 pb-2 pt-2 px-2 md:px-6"
+  >
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Location:</p>
+      <h5 class="m-0">{{ wine.provinceState }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Region:</p>
+      <h5 class="m-0">{{ wine.region }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Sub-Region:</p>
+      <h5 class="m-0 text-primary-900">{{ wine.subRegion }}</h5>
+    </div>
+  </div>
+  <div class="flex flex-wrap justify-content-between gap-3 pb-2 px-2 md:px-6">
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Varietal(s):</p>
+      <h5 class="m-0 text-primary-900">{{ wine.varietal }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Sugar Content:</p>
+      <h5 class="m-0">{{ wine.sugar }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Alcohol Content:</p>
+      <h5 class="m-0">{{ wine.alcoholContent }}%</h5>
+    </div>
+  </div>
+  <div class="flex flex-wrap justify-content-between gap-3 pb-2 px-2 md:px-6">
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Body:</p>
+      <h5 class="m-0 text-primary-900">{{ wine.body }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Acidity:</p>
+      <h5 class="m-0">{{ wine.acidity }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Tannins:</p>
+      <h5 class="m-0">{{ wine.tannins }}</h5>
+    </div>
+  </div>
+  <div class="flex flex-wrap justify-content-between gap-3 pb-2 px-2 md:px-6">
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Tasting Notes:</p>
+      <h5 class="m-0 text-primary-900">{{ wine.tastingNotes }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700" [style]="{ 'word-wrap': 'break-word' }">
+        Characteristics:
+      </p>
+      <h5 class="m-0">{{ wine.characteristics }}</h5>
+    </div>
+    <div [style]="{ width: '30%' }">
+      <p class="m-0 text-primary-700">Food Pairings:</p>
+      <h5 class="m-0">{{ wine.foodPairings }}</h5>
+    </div>
+  </div>
+</div>
+<p-divider class="mt-2 mb-0"></p-divider>
+}

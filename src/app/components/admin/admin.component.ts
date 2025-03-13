@@ -105,7 +105,7 @@ export class AdminComponent {
         this.addWineFormGroup(wine);
       });
     }
-    
+
     console.log('[ADMIN] Original Wines Object:', this.originalWines);
     setTimeout(() => {
       this.isLoading = false;
@@ -175,7 +175,7 @@ export class AdminComponent {
         wine.varietal,
         [
           Validators.required,
-          Validators.pattern(/^[a-zA-Z\s,]+$/),
+          Validators.pattern(/^[a-zA-Z0-9\s,%]+$/),
           Validators.maxLength(254),
         ],
       ],
@@ -235,7 +235,8 @@ export class AdminComponent {
         comparison = a[field].localeCompare(b[field]);
       } else if (typeof a[field] === 'number') {
         comparison = a[field] - b[field];
-      } else { // If fields are null or undefined they should go last in the list
+      } else {
+        // If fields are null or undefined they should go last in the list
         if (a[field] === null || a[field] === undefined) return 1;
 
         if (b[field] === null || b[field] === undefined) return -1;

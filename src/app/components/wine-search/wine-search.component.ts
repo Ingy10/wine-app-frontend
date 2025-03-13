@@ -9,6 +9,7 @@ import { Wine } from '../../interfaces/Wine.interface';
 import { WineDataService } from '../../services/wineData.service';
 import { Subject, takeUntil } from 'rxjs';
 import { WineSearchService } from '../../services/wineSearch.service';
+import { WineDisplayComponent } from "../wine-display/wine-display.component";
 
 @Component({
   selector: 'app-wine-search',
@@ -19,7 +20,8 @@ import { WineSearchService } from '../../services/wineSearch.service';
     AutoCompleteModule,
     ReactiveFormsModule,
     ButtonModule,
-  ],
+    WineDisplayComponent
+],
   templateUrl: './wine-search.component.html',
   styleUrl: './wine-search.component.scss',
 })
@@ -60,6 +62,7 @@ export class WineSearchComponent {
       });
   }
 
+  // Autocomplete search term filter
   search(event: any) {
     console.log('[SEARCH] event:', event);
 

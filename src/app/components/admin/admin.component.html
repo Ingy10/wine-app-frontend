@@ -197,7 +197,7 @@
                       >Varietal(s)
                       <i
                         class="pi pi-info-circle text-primary-400 cursor-pointer"
-                        pTooltip="Enter the varietal(s) as a comma separated list. If a blend, add blend followed by varietals with % ratio (eg: 'Bordeaux, Cabernet Sauvignon 50%, Merlot 30%, Pertit Verdot 15%, Carmenere 5%') This ensure the wine is searchable by name of blend or varietal used and provides useful information on composition"
+                        pTooltip="Enter the varietal(s) as a comma separated list. If a blend, add blend followed by varietals with % ratio (eg: 'Bordeaux, Cabernet Sauvignon 50%, Merlot 30%, Petit Verdot 15%, Carmenere 5%') This ensure the wine is searchable by name of blend or varietal used and provides useful information on composition"
                         tooltipPosition="top"
                       ></i>
                     </label>
@@ -220,8 +220,9 @@
                     @if (winesArray.at($index).get('varietal')?.invalid &&
                     winesArray.at($index).get('varietal')?.touched) {
                     <small class="pt-1 text-center" [style]="{ color: 'red' }"
-                      >*Enter Varietals as a comma separated List. Only letters
-                      and commas accepted as input.</small
+                      >*Enter Varietals as a comma separated List. Only letters,
+                      numbers, commas and percentage signs accepted as
+                      input.</small
                     >
                     <small class="pt-1 text-center" [style]="{ color: 'red' }"
                       >*Max length 255 characters.</small

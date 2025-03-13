@@ -213,6 +213,15 @@ export class StaticService {
     { label: 'Country (A-Z)', value: 'country_asc' },
     { label: 'Country (Z-A)', value: 'country_desc' },
   ];
+  coutryFlagCodes: Record<string, string>= {
+    Argentina: 'ar',
+    Canada: 'ca',
+    France: 'fr',
+    Italy: 'it',
+    Portugal: 'pt',
+    Spain: 'es',
+    USA: 'us',
+  };
   // sampleWines = [
   //   {
   //     id: 4,

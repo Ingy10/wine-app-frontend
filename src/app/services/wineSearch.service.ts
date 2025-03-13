@@ -7,6 +7,7 @@ import { Wine } from '../interfaces/Wine.interface';
 export class WineSearchService {
   constructor() {}
 
+  // *** Autocomplete methods ***
   // Finds all searchable terms from entire wine list
   getAllSearchableTerms(wines: Wine[]): string[] {
     const suggestionsSet = new Set<string>();
@@ -54,8 +55,10 @@ export class WineSearchService {
       if (value.includes(',')) {
         value.split(',').forEach((part) => {
           const trimmed = part.trim();
-          if (trimmed) {
+          if (trimmed && field !== 'foodPairings') {
             suggestionsSet.add(trimmed);
+          } else if (trimmed) {
+            suggestionsSet.add(`Pairs with: ${trimmed}`);
           }
         });
       } else {
@@ -64,7 +67,9 @@ export class WineSearchService {
             suggestionsSet.add(value.trim());
           } else if (value !== 'None') {
             suggestionsSet.add(
-              `${value.trim()} ${field.charAt(0).toUpperCase() + field.slice(1)}`
+              `${value.trim()} ${
+                field.charAt(0).toUpperCase() + field.slice(1)
+              }`
             );
           } else {
             suggestionsSet.add(
@@ -76,6 +81,7 @@ export class WineSearchService {
     });
   }
 
+  // Method to filter autocomplete suggestions
   filterTerms(allTerms: string[], query: string): string[] {
     if (!query || query.length === 0) {
       return allTerms;

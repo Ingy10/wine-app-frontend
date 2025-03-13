@@ -4,7 +4,7 @@ import Lara from '@primeng/themes/lara';
 const WinePreset = definePreset(Lara, {
   semantic: {
     primary: {
-      50: '#fzfzf9', // Soft neutral white
+      50: '#ffffff', // Soft neutral white
       100: '#ebe8e8', // Very light gray
       200: '#d3cfcf', // Light warm gray
       300: '#b5b0b0', // Medium gray with slight warmth
