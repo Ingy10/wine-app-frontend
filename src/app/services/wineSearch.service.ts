@@ -54,7 +54,12 @@ export class WineSearchService {
       // If it's a comma-separated list, add each part as a suggestion
       if (value.includes(',')) {
         value.split(',').forEach((part) => {
-          const trimmed = part.trim();
+          let trimmed = part.trim();
+
+          if (trimmed.match(/[0-9%]/)) {
+            trimmed = trimmed.replace(/[0-9%]/g, '').trim();
+          }
+          
           if (trimmed && field !== 'foodPairings') {
             suggestionsSet.add(trimmed);
           } else if (trimmed) {
