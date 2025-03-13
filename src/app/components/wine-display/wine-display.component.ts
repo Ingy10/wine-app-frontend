@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Wine } from '../../interfaces/Wine.interface';
 import { WineSearchComponent } from '../wine-search/wine-search.component';
 import { WineDataService } from '../../services/wineData.service';
@@ -16,7 +16,7 @@ import { WineDisplayService } from '../../services/wineDisplay.service';
 })
 export class WineDisplayComponent {
   wines: Wine[] = [];
-  filteredWines: Array<Wine> = [];
+  @Input() filteredWines: Wine[] = [];
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -31,7 +31,10 @@ export class WineDisplayComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((wines) => {
         this.wines = wines;
-        this.filteredWines = wines;
+
+        if (this.filteredWines.length === 0) {
+          this.filteredWines = wines;
+        }
         console.log('[DISPLAY] wines loaded:', wines);
       });
   }

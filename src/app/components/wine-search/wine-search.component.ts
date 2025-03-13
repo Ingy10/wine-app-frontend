@@ -37,6 +37,7 @@ export class WineSearchComponent {
   allSearchableTerms: string[] = [];
   searchSuggestions: string[] = [];
   private destroy$ = new Subject<void>();
+  filteredWines: Wine[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -77,5 +78,23 @@ export class WineSearchComponent {
       query
     );
     console.log('[SEARCH] Search suggestions:', this.searchSuggestions);
+  }
+
+  // Sets filtered wine list given a set of search terms
+  wineSearch() {
+    console.log('[SEARCH] terms:', this.searchForm?.value?.terms);
+
+    const wineTerms = this.searchForm?.value?.terms || [];
+
+    if (wineTerms.length === 0) {
+      this.filteredWines = this.allWines;
+    }
+
+    this.filteredWines = this._wineSearchService.filterWinesByTerms(
+      this.allWines,
+      wineTerms
+    );
+
+    console.log('[SEARCH] filtered wines:', this.filteredWines);
   }
 }
